@@ -1,7 +1,10 @@
-﻿namespace ProyectoTiendaHD.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProyectoTiendaHD.Modelos;
 
 public class CanalDistribucion
 {
-    public int CanalDistribucionId { get; set; }
+	[Key]
+	public int CanalDistribucionId { get; set; }
     public string Descripcion { get; set; }
 }
