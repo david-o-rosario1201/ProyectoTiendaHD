@@ -1,7 +1,10 @@
-﻿namespace TiendaHDProject.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TiendaHDProject.Modelos;
 
 public class RelacionCliente
 {
-    public int RelacionClienteId { get; set; }
+	[Key]
+	public int RelacionClienteId { get; set; }
     public string Descripcion { get; set; }
 }

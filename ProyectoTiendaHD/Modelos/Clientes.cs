@@ -1,19 +1,39 @@
-﻿namespace ProyectoTiendaHD.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using TiendaHDProject.Modelos;
+
+namespace ProyectoTiendaHD.Modelos;
 
 public class Cliente
 {
-    public int ClienteId { get; set; }
+	[Key]
+	public int ClienteId { get; set; }
     public string Nombre { get; set; }
     public int Edad { get; set; }
-    public int SegmentoMercadoId { get; set; }
-    public double PorcentajeCoincidencias { get; set; }
 
+	[ForeignKey("SegmentoMercado")]
+	public int SegmentoMercadoId { get; set; }
+    public double PorcentajeCoincidencias { get; set; }
     public SegmentoMercado SegmentoMercado { get; set; }
-    public List<DetalleClienteGusto> DetallesGusto { get; set; }
-    public List<DetalleClienteCoincidenciaSegmentoMercado> CoincidenciasSegmento { get; set; }
-    public List<DetalleClienteCoincidenciaPropuestaValor> CoincidenciasPropuestaValor { get; set; }
-    public List<DetalleClienteCoincidenciaCanalesDistribucion> CoincidenciasCanales { get; set; }
-    public List<DetalleClienteCoincidenciaIngresosPrecio> CoincidenciasIngresos { get; set; }
-    public List<DetalleClienteCoincidenciaActividadesValor> CoincidenciasActividades { get; set; }
-    public List<DetalleClienteCoincidenciaRelacionClientes> CoincidenciasRelaciones { get; set; }
+
+    [ForeignKey("ClienteId")]
+	public ICollection<Gusto> DetallesGusto { get; set; } = new List<Gusto>();
+
+	[ForeignKey("ClienteId")]
+	public ICollection<CoincidenciaSegmentoMercado> CoincidenciasSegmento { get; set; } = new List<CoincidenciaSegmentoMercado>();
+
+	[ForeignKey("ClienteId")]
+	public ICollection<CoincidenciaPropuestaValor> CoincidenciasPropuestaValor { get; set; } = new List<CoincidenciaPropuestaValor>();
+
+	[ForeignKey("ClienteId")]
+	public ICollection<CoincidenciaCanalesDistribucion> CoincidenciasCanales { get; set; } = new List<CoincidenciaCanalesDistribucion>();
+
+	[ForeignKey("ClienteId")]
+	public ICollection<CoincidenciaIngresosPrecio> CoincidenciasIngresos { get; set; } = new List<CoincidenciaIngresosPrecio>();
+
+	[ForeignKey("ClienteId")]
+	public ICollection<CoincidenciaActividadesValor> CoincidenciasActividades { get; set; } = new List<CoincidenciaActividadesValor>();
+
+	[ForeignKey("ClienteId")]
+	public ICollection<CoincidenciaRelacionCliente> CoincidenciasRelaciones { get; set; } = new List<CoincidenciaRelacionCliente>();
 }

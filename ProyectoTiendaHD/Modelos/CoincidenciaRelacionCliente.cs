@@ -2,7 +2,7 @@
 
 namespace ProyectoTiendaHD.Modelos;
 
-public class CoincidenciaSegmentoMercado
+public class CoincidenciaRelacionCliente
 {
 	[Key]
 	public int CoincidenciaId { get; set; }

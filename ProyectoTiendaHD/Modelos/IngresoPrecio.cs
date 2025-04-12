@@ -1,7 +1,10 @@
-﻿namespace TiendaHDProject.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TiendaHDProject.Modelos;
 
 public class IngresoPrecio
 {
-    public int IngresoPrecioId { get; set; }
+	[Key]
+	public int IngresoPrecioId { get; set; }
     public string Descripcion { get; set; }
 }
