@@ -1,7 +1,12 @@
-﻿namespace TiendaHDProject.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TiendaHDProject.Modelos;
 
 public class RecursoClave
 {
-    public int RecursoClaveId { get; set; }
+	[Key]
+	public int RecursoClaveId { get; set; }
+
+	public int ActividadClaveId { get; set; }
     public string Descripcion { get; set; }
 }

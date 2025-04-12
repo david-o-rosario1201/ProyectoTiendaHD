@@ -1,7 +1,10 @@
-﻿namespace TiendaHDProject.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TiendaHDProject.Modelos;
 
 public class PropuestaValor
 {
-    public int PropuestaValorId { get; set; }
+	[Key]
+	public int PropuestaValorId { get; set; }
     public string Descripcion { get; set; }
 }

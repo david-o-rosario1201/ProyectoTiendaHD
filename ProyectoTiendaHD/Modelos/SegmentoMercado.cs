@@ -1,7 +1,10 @@
-﻿namespace TiendaHDProject.Modelos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TiendaHDProject.Modelos;
 
 public class SegmentoMercado
 {
-    public int SegmentoMercadoId { get; set; }
+	[Key]
+	public int SegmentoMercadoId { get; set; }
     public string Descripcion { get; set; }
 }
