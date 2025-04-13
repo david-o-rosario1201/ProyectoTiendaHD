@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoTiendaHD.Modelos;
-using TiendaHDProject.Modelos;
 
 namespace ProyectoTiendaHD.DAL;
 

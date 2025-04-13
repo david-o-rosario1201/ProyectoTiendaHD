@@ -1,7 +1,10 @@
 ﻿@page "/"
-@using TiendaHDProject.Modelos
 @rendermode InteractiveServer
 @inject NavigationManager navigation
+@inject ModeloNegocioService modeloNegocioService
+@inject UsuarioService usuarioService
+@inject SegmentoMercadoService segmentoMercadoService
+@inject PropuestaValorService propuestaValorService
 
 <PageTitle>Pantalla #1</PageTitle>
 
@@ -415,14 +418,23 @@
         //var nuevoDetalle = new ActividadClave { Descripcion = actividadValor };
         modeloNegocio.Actividades.Add(ActividadClave);
         //actividadValor = "";
-		ActividadClave = new ActividadClave();
-		StateHasChanged();
-	}
+        ActividadClave = new ActividadClave();
+        StateHasChanged();
+    }
 
     void EliminarActividadValor(ActividadClave actividadValor) => modeloNegocio.Actividades.Remove(actividadValor);
 
-	void Terminar()
-	{
-		StateHasChanged();
+    async Task Terminar()
+    {
+        await usuarioService.Crear(usuario);
+
+        segmentoMercado.SegmentoMercadoId = await segmentoMercadoService.Crear(segmentoMercado);
+        modeloNegocio.SegmentoMercadoId = segmentoMercado.SegmentoMercadoId;
+
+        propuestaValor.PropuestaValorId = await propuestaValorService.Crear(propuestaValor);
+        modeloNegocio.PropuestaValorId = propuestaValor.PropuestaValorId;
+
+        await modeloNegocioService.Crear(modeloNegocio);
+        StateHasChanged();
 	}
 }

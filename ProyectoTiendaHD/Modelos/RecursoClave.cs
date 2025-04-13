@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TiendaHDProject.Modelos;
+namespace ProyectoTiendaHD.Modelos;
 
 public class RecursoClave
 {

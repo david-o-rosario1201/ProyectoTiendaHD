@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoTiendaHD.Components;
 using ProyectoTiendaHD.DAL;
+using ProyectoTiendaHD.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,12 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddDbContextFactory<Contexto>
 		(o => o.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
+
+//Services
+builder.Services.AddScoped<ModeloNegocioService>();
+builder.Services.AddScoped<PropuestaValorService>();
+builder.Services.AddScoped<SegmentoMercadoService>();
+builder.Services.AddScoped<UsuarioService>();
 
 var app = builder.Build();
 
