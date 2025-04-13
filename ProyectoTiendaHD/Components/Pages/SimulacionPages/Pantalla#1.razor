@@ -1,0 +1,325 @@
+﻿@page "/"
+@using TiendaHDProject.Modelos
+@rendermode InteractiveServer
+@inject NavigationManager navigation
+
+<PageTitle>Pantalla #1</PageTitle>
+
+<div class="container py-5">
+    <div class="card shadow p-4">
+        <div class="card-body">
+
+            <h1 class="text-center"><strong>Bienvenido a la simulación<br />de tu Modelo de Negocio</strong></h1>
+
+            <!-- Nombre -->
+            <div class="form-box mb-3 p-4 border rounded shadow-sm bg-light">
+                <p class="h5 font-weight-bold text-primary">Por favor, ingrese su nombre</p>
+                <div class="col-md-8">
+                    <InputText class="form-control form-control-lg" @bind-Value="usuario.Nombre" placeholder="Juan Pérez" />
+                </div>
+            </div>
+
+            <!-- Segmento de mercado -->
+            <div class="form-box mb-3 p-4 border rounded shadow-sm bg-light">
+                <p class="h5 font-weight-bold text-primary">¿Cuál es tu segmento de mercado?</p>
+                <div class="col-md-8">
+                    <InputTextArea class="form-control form-control-lg" @bind-Value="segmentoMercado.Descripcion" placeholder="Jóvenes entre 20-35..." rows="3" />
+                </div>
+            </div>
+
+            <!-- Propuesta de valor -->
+            <div class="form-box mb-3 p-4 border rounded shadow-sm bg-light">
+                <p class="h5 font-weight-bold text-primary">¿Cuál es tu propuesta de valor?</p>
+                <div class="col-md-8">
+                    <InputTextArea class="form-control form-control-lg" @bind-Value="propuestaValor.Descripcion" placeholder="Café artesanal de alta calidad..." rows="3" />
+                </div>
+            </div>
+
+
+            <!-- Canales de distribución -->
+            <fieldset class="border-primary border border-2 mb-3 p-3 rounded">
+                <div class="card-body">
+                    <section class="mb-4">
+                        <h3 class="text-primary"><strong>Canales de Distribución</strong></h3>
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <InputText class="form-control" @bind-Value="canalDistribucion" placeholder="Aplicación móvil" />
+                            </div>
+                            <div class="col-4 d-flex justify-content-end">
+                                <button type="button" class="btn btn-success" @onclick="AgregarCanalDistribucion">
+                                    <i class="bi bi-plus-circle"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    @if (modeloNegocio.Canales.Count > 0)
+                    {
+                        <section>
+                            <table class="table table-hover table-striped table-bordered shadow-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Canal de Distribución</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var detalle in modeloNegocio.Canales)
+                                    {
+                                        <tr>
+                                            <td>@detalle.Descripcion</td>
+                                            <td class="text-center">
+                                                <!-- Aquí podrías agregar acciones como eliminar o editar -->
+                                                <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </section>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No se han agregado canales de distribución aún.</div>
+                    }
+                </div>
+            </fieldset>
+
+
+            <!-- Relación con clientes -->
+            <fieldset class="border-primary border border-2 mb-3 p-3 rounded">
+                <div class="card-body">
+                    <section class="mb-4">
+                        <h3 class="text-primary"><strong>¿Cómo te relacionas con los clientes?</strong></h3>
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <InputText class="form-control" @bind-Value="relacionCliente" placeholder="Atención por WhatsApp" />
+                            </div>
+                            <div class="col-4 d-flex justify-content-end">
+                                <button type="button" class="btn btn-success" @onclick="AgregarRelacionCliente">
+                                    <i class="bi bi-plus-circle"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    @if (modeloNegocio.Relaciones.Count > 0)
+                    {
+                        <section>
+                            <table class="table table-hover table-striped table-bordered shadow-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Relación con el Cliente</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var detalle in modeloNegocio.Relaciones)
+                                    {
+                                        <tr>
+                                            <td>@detalle.Descripcion</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </section>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No se han agregado relaciones con los clientes aún.</div>
+                    }
+                </div>
+            </fieldset>
+
+
+            <!-- Ingresos -->
+            <fieldset class="border-primary border border-2 mb-3 p-3 rounded">
+                <div class="card-body">
+                    <section class="mb-4">
+                        <h3 class="text-primary"><strong>¿De qué forma obtendrás ingresos?</strong></h3>
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <InputText class="form-control" @bind-Value="ingresos" placeholder="Venta por unidad" />
+                            </div>
+                            <div class="col-4 d-flex justify-content-end">
+                                <button type="button" class="btn btn-success" @onclick="AgregarIngresos">
+                                    <i class="bi bi-plus-circle"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    @if (modeloNegocio.Ingresos.Count > 0)
+                    {
+                        <section>
+                            <table class="table table-hover table-striped table-bordered shadow-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Forma de Ingreso</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var detalle in modeloNegocio.Ingresos)
+                                    {
+                                        <tr>
+                                            <td>@detalle.Descripcion</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </section>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No se han agregado formas de ingresos aún.</div>
+                    }
+                </div>
+            </fieldset>
+
+
+            <!-- Actividades clave -->
+            <div class="form-box mb-3 p-4 border rounded shadow-sm bg-light">
+                <p class="h5 font-weight-bold text-primary">¿Cuáles son tus actividades clave?</p>
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <InputText class="form-control form-control-lg" @bind-Value="ActividadClave.Descripcion" placeholder="Ejemplo: Preparar café..." />
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button type="button" class="btn btn-success" @onclick="NuevaActividadClave">
+                            <i class="bi bi-plus-circle" /> Nueva
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recursos clave relacionados con la actividad -->
+            <fieldset class="border-primary border border-2 mb-3 p-3 rounded">
+                <div class="card-body">
+
+                    <section class="mb-4">
+                        <h3 class="text-primary"><strong>¿Cuáles son los recursos clave para la actividad?</strong></h3>
+                        
+
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <InputText class="form-control" @bind-Value="recursoValor" placeholder="Ejemplo: Cafetera industrial" />
+                            </div>
+                            <div class="col-4 d-flex justify-content-end">
+                                <button type="button" class="btn btn-success" @onclick="AgregarRecursoValor">
+                                    <i class="bi bi-plus-circle" /> Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        @if (ActividadClave.RecursoClaves.Count > 0)
+                        {
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Recurso Clave</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var detalle in ActividadClave.RecursoClaves)
+                                    {
+                                        <tr>
+                                            <td>@detalle.Descripcion</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info">
+                                No se han agregado recursos clave a esta actividad aún.
+                            </div>
+                        }
+                    </section>
+                </div>
+            </fieldset>
+
+            <!-- Botón Terminar Mejorado y Centrado -->
+            <div class="d-flex justify-content-center mt-4">
+                <button type="button" class="btn btn-success btn-lg px-4 py-2 shadow" @onclick="Terminar">
+                    <i class="bi bi-check-circle-fill me-2"></i> Terminar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+	public Usuario usuario { get; set; } = new Usuario();
+	public SegmentoMercado segmentoMercado { get; set; } = new SegmentoMercado();
+	public PropuestaValor propuestaValor { get; set; } = new PropuestaValor();
+	public ModeloNegocio modeloNegocio { get; set; } = new ModeloNegocio();
+	public ActividadClave ActividadClave { get; set; } = new ActividadClave();
+	public string canalDistribucion { get; set; } = "";
+	public string relacionCliente { get; set; } = "";
+	public string ingresos { get; set; } = "";
+	public string actividadValor { get; set; } = "";
+	public string recursoValor { get; set; } = "";
+
+	void IrASiguiente()
+	{
+		navigation.NavigateTo($"pantalla#2/{usuario.Nombre}");
+	}
+
+	void AgregarCanalDistribucion()
+	{
+		var nuevoDetalle = new CanalDistribucion { Descripcion = canalDistribucion };
+		modeloNegocio.Canales.Add(nuevoDetalle);
+		StateHasChanged();
+	}
+
+	void AgregarRelacionCliente()
+	{
+		var nuevoDetalle = new RelacionCliente { Descripcion = canalDistribucion };
+		modeloNegocio.Relaciones.Add(nuevoDetalle);
+		StateHasChanged();
+	}
+
+	void AgregarIngresos()
+	{
+		var nuevoDetalle = new IngresoPrecio { Descripcion = canalDistribucion };
+		modeloNegocio.Ingresos.Add(nuevoDetalle);
+		StateHasChanged();
+	}
+
+	void AgregarRecursoValor()
+	{
+		var nuevoDetalle = new RecursoClave { Descripcion = canalDistribucion };
+		ActividadClave.RecursoClaves.Add(nuevoDetalle);
+		StateHasChanged();
+	}
+
+	void NuevaActividadClave()
+	{
+		actividadValor = "";
+		ActividadClave = new ActividadClave();
+		StateHasChanged();
+	}
+
+	void Terminar()
+	{
+		StateHasChanged();
+	}
+}
