@@ -294,9 +294,6 @@ namespace ProyectoTiendaHD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModeloNegocioId"));
 
-                    b.Property<int>("IngresoPrecioId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PropuestaValorId")
                         .HasColumnType("int");
 
@@ -304,8 +301,6 @@ namespace ProyectoTiendaHD.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ModeloNegocioId");
-
-                    b.HasIndex("IngresoPrecioId");
 
                     b.HasIndex("PropuestaValorId");
 
@@ -489,12 +484,6 @@ namespace ProyectoTiendaHD.Migrations
 
             modelBuilder.Entity("TiendaHDProject.Modelos.ModeloNegocio", b =>
                 {
-                    b.HasOne("TiendaHDProject.Modelos.IngresoPrecio", "IngresoPrecio")
-                        .WithMany()
-                        .HasForeignKey("IngresoPrecioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TiendaHDProject.Modelos.PropuestaValor", "PropuestaValor")
                         .WithMany()
                         .HasForeignKey("PropuestaValorId")
@@ -506,8 +495,6 @@ namespace ProyectoTiendaHD.Migrations
                         .HasForeignKey("SegmentoMercadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("IngresoPrecio");
 
                     b.Navigation("PropuestaValor");
 

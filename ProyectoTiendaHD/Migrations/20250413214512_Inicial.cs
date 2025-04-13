@@ -5,7 +5,7 @@
 namespace ProyectoTiendaHD.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,19 @@ namespace ProyectoTiendaHD.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Usuario",
+                columns: table => new
+                {
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuario", x => x.UsuarioId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cliente",
                 columns: table => new
                 {
@@ -52,6 +65,32 @@ namespace ProyectoTiendaHD.Migrations
                     table.PrimaryKey("PK_Cliente", x => x.ClienteId);
                     table.ForeignKey(
                         name: "FK_Cliente_SegmentoMercado_SegmentoMercadoId",
+                        column: x => x.SegmentoMercadoId,
+                        principalTable: "SegmentoMercado",
+                        principalColumn: "SegmentoMercadoId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ModeloNegocio",
+                columns: table => new
+                {
+                    ModeloNegocioId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PropuestaValorId = table.Column<int>(type: "int", nullable: false),
+                    SegmentoMercadoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModeloNegocio", x => x.ModeloNegocioId);
+                    table.ForeignKey(
+                        name: "FK_ModeloNegocio_PropuestaValor_PropuestaValorId",
+                        column: x => x.PropuestaValorId,
+                        principalTable: "PropuestaValor",
+                        principalColumn: "PropuestaValorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModeloNegocio_SegmentoMercado_SegmentoMercadoId",
                         column: x => x.SegmentoMercadoId,
                         principalTable: "SegmentoMercado",
                         principalColumn: "SegmentoMercadoId",
@@ -210,6 +249,68 @@ namespace ProyectoTiendaHD.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ActividadeClave", x => x.ActividadClaveId);
+                    table.ForeignKey(
+                        name: "FK_ActividadeClave_ModeloNegocio_ModeloNegocioId",
+                        column: x => x.ModeloNegocioId,
+                        principalTable: "ModeloNegocio",
+                        principalColumn: "ModeloNegocioId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CanalDistribucion",
+                columns: table => new
+                {
+                    CanalDistribucionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModeloNegocioId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CanalDistribucion", x => x.CanalDistribucionId);
+                    table.ForeignKey(
+                        name: "FK_CanalDistribucion_ModeloNegocio_ModeloNegocioId",
+                        column: x => x.ModeloNegocioId,
+                        principalTable: "ModeloNegocio",
+                        principalColumn: "ModeloNegocioId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IngresoPrecio",
+                columns: table => new
+                {
+                    IngresoPrecioId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModeloNegocioId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IngresoPrecio", x => x.IngresoPrecioId);
+                    table.ForeignKey(
+                        name: "FK_IngresoPrecio_ModeloNegocio_ModeloNegocioId",
+                        column: x => x.ModeloNegocioId,
+                        principalTable: "ModeloNegocio",
+                        principalColumn: "ModeloNegocioId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RelacionCliente",
+                columns: table => new
+                {
+                    RelacionClienteId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModeloNegocioId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RelacionCliente", x => x.RelacionClienteId);
+                    table.ForeignKey(
+                        name: "FK_RelacionCliente_ModeloNegocio_ModeloNegocioId",
+                        column: x => x.ModeloNegocioId,
+                        principalTable: "ModeloNegocio",
+                        principalColumn: "ModeloNegocioId");
                 });
 
             migrationBuilder.CreateTable(
@@ -230,86 +331,6 @@ namespace ProyectoTiendaHD.Migrations
                         principalTable: "ActividadeClave",
                         principalColumn: "ActividadClaveId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CanalDistribucion",
-                columns: table => new
-                {
-                    CanalDistribucionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModeloNegocioId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CanalDistribucion", x => x.CanalDistribucionId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IngresoPrecio",
-                columns: table => new
-                {
-                    IngresoPrecioId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModeloNegocioId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IngresoPrecio", x => x.IngresoPrecioId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ModeloNegocio",
-                columns: table => new
-                {
-                    ModeloNegocioId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PropuestaValorId = table.Column<int>(type: "int", nullable: false),
-                    IngresoPrecioId = table.Column<int>(type: "int", nullable: false),
-                    SegmentoMercadoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ModeloNegocio", x => x.ModeloNegocioId);
-                    table.ForeignKey(
-                        name: "FK_ModeloNegocio_IngresoPrecio_IngresoPrecioId",
-                        column: x => x.IngresoPrecioId,
-                        principalTable: "IngresoPrecio",
-                        principalColumn: "IngresoPrecioId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ModeloNegocio_PropuestaValor_PropuestaValorId",
-                        column: x => x.PropuestaValorId,
-                        principalTable: "PropuestaValor",
-                        principalColumn: "PropuestaValorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ModeloNegocio_SegmentoMercado_SegmentoMercadoId",
-                        column: x => x.SegmentoMercadoId,
-                        principalTable: "SegmentoMercado",
-                        principalColumn: "SegmentoMercadoId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RelacionCliente",
-                columns: table => new
-                {
-                    RelacionClienteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModeloNegocioId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RelacionCliente", x => x.RelacionClienteId);
-                    table.ForeignKey(
-                        name: "FK_RelacionCliente_ModeloNegocio_ModeloNegocioId",
-                        column: x => x.ModeloNegocioId,
-                        principalTable: "ModeloNegocio",
-                        principalColumn: "ModeloNegocioId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -368,11 +389,6 @@ namespace ProyectoTiendaHD.Migrations
                 column: "ModeloNegocioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModeloNegocio_IngresoPrecioId",
-                table: "ModeloNegocio",
-                column: "IngresoPrecioId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ModeloNegocio_PropuestaValorId",
                 table: "ModeloNegocio",
                 column: "PropuestaValorId");
@@ -391,36 +407,11 @@ namespace ProyectoTiendaHD.Migrations
                 name: "IX_RelacionCliente_ModeloNegocioId",
                 table: "RelacionCliente",
                 column: "ModeloNegocioId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ActividadeClave_ModeloNegocio_ModeloNegocioId",
-                table: "ActividadeClave",
-                column: "ModeloNegocioId",
-                principalTable: "ModeloNegocio",
-                principalColumn: "ModeloNegocioId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CanalDistribucion_ModeloNegocio_ModeloNegocioId",
-                table: "CanalDistribucion",
-                column: "ModeloNegocioId",
-                principalTable: "ModeloNegocio",
-                principalColumn: "ModeloNegocioId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_IngresoPrecio_ModeloNegocio_ModeloNegocioId",
-                table: "IngresoPrecio",
-                column: "ModeloNegocioId",
-                principalTable: "ModeloNegocio",
-                principalColumn: "ModeloNegocioId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_IngresoPrecio_ModeloNegocio_ModeloNegocioId",
-                table: "IngresoPrecio");
-
             migrationBuilder.DropTable(
                 name: "CanalDistribucion");
 
@@ -446,10 +437,16 @@ namespace ProyectoTiendaHD.Migrations
                 name: "Gusto");
 
             migrationBuilder.DropTable(
+                name: "IngresoPrecio");
+
+            migrationBuilder.DropTable(
                 name: "RecursoClave");
 
             migrationBuilder.DropTable(
                 name: "RelacionCliente");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "Cliente");
@@ -459,9 +456,6 @@ namespace ProyectoTiendaHD.Migrations
 
             migrationBuilder.DropTable(
                 name: "ModeloNegocio");
-
-            migrationBuilder.DropTable(
-                name: "IngresoPrecio");
 
             migrationBuilder.DropTable(
                 name: "PropuestaValor");
