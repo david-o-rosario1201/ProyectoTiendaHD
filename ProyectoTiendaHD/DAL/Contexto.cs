@@ -27,4 +27,5 @@ public class Contexto : DbContext
 	public DbSet<RecursoClave> RecursoClave { get; set; }
 	public DbSet<RelacionCliente> RelacionCliente { get; set; }
 	public DbSet<SegmentoMercado> SegmentoMercado { get; set; }
+	public DbSet<Usuario> Usuario { get; set; }
 }
