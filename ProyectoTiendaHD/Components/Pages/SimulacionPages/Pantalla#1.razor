@@ -70,8 +70,7 @@
                                             <td>@detalle.Descripcion</td>
                                             <td class="text-center">
                                                 <!-- Aquí podrías agregar acciones como eliminar o editar -->
-                                                <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=>EliminarCanalDistribucion(detalle)"><i class="bi bi-trash">Eliminar</i></button>
                                             </td>
                                         </tr>
                                     }
@@ -120,8 +119,8 @@
                                         <tr>
                                             <td>@detalle.Descripcion</td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> EliminarRelacionCliente(detalle)">
+                                                    <i class="bi bi-trash">Eliminar</i></button>
                                             </td>
                                         </tr>
                                     }
@@ -170,8 +169,8 @@
                                         <tr>
                                             <td>@detalle.Descripcion</td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> EliminarIngresos(detalle)">
+                                                    <i class="bi bi-trash">Eliminar</i></button>
                                             </td>
                                         </tr>
                                     }
@@ -208,7 +207,7 @@
 
                     <section class="mb-4">
                         <h3 class="text-primary"><strong>¿Cuáles son los recursos clave para la actividad?</strong></h3>
-                        
+
 
                         <div class="row align-items-center">
                             <div class="col-8">
@@ -229,7 +228,7 @@
                                 <thead>
                                     <tr>
                                         <th>Recurso Clave</th>
-                                        <th></th>
+                                        <th class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -237,6 +236,11 @@
                                     {
                                         <tr>
                                             <td>@detalle.Descripcion</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> EliminarRecursoValor(detalle)">
+                                                    <i class="bi bi-trash">Eliminar</i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -252,6 +256,42 @@
                 </div>
             </fieldset>
 
+            <section>
+                @if (modeloNegocio.Actividades.Count > 0)
+                {
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Actividad Clave</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detalle in modeloNegocio.Actividades)
+                            {
+                                <tr>
+                                    <td>@detalle.Descripcion</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-primary btn-sm" @onclick="() => VerActividad(detalle)">
+                                            <i class="bi bi-eye">Ver</i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm" @onclick="()=> EliminarActividadValor(detalle)">
+                                            <i class="bi bi-trash">Eliminar</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        No se han agregado recursos clave a esta actividad aún.
+                    </div>
+                }
+            </section>
+
             <!-- Botón Terminar Mejorado y Centrado -->
             <div class="d-flex justify-content-center mt-4">
                 <button type="button" class="btn btn-success btn-lg px-4 py-2 shadow" @onclick="Terminar">
@@ -264,59 +304,122 @@
 </div>
 
 
+@if (mostrarModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalle de la Actividad</h5>
+                    <button type="button" class="btn-close" @onclick="CerrarModal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Descripción:</strong> @actividadSeleccionada?.Descripcion</p>
+                    @if (actividadSeleccionada?.RecursoClaves?.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var recurso in actividadSeleccionada.RecursoClaves)
+                            {
+                                <li>@recurso.Descripcion</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No hay recursos clave asociados.</p>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CerrarModal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 
 @code {
-	public Usuario usuario { get; set; } = new Usuario();
-	public SegmentoMercado segmentoMercado { get; set; } = new SegmentoMercado();
-	public PropuestaValor propuestaValor { get; set; } = new PropuestaValor();
-	public ModeloNegocio modeloNegocio { get; set; } = new ModeloNegocio();
-	public ActividadClave ActividadClave { get; set; } = new ActividadClave();
-	public string canalDistribucion { get; set; } = "";
-	public string relacionCliente { get; set; } = "";
-	public string ingresos { get; set; } = "";
-	public string actividadValor { get; set; } = "";
-	public string recursoValor { get; set; } = "";
+    public Usuario usuario { get; set; } = new Usuario();
+    public SegmentoMercado segmentoMercado { get; set; } = new SegmentoMercado();
+    public PropuestaValor propuestaValor { get; set; } = new PropuestaValor();
+    public ModeloNegocio modeloNegocio { get; set; } = new ModeloNegocio();
+    public ActividadClave ActividadClave { get; set; } = new ActividadClave();
+    public string canalDistribucion { get; set; } = "";
+    public string relacionCliente { get; set; } = "";
+    public string ingresos { get; set; } = "";
+    //public string actividadValor { get; set; } = "";
+    public string recursoValor { get; set; } = "";
 
-	void IrASiguiente()
-	{
-		navigation.NavigateTo($"pantalla#2/{usuario.Nombre}");
-	}
 
-	void AgregarCanalDistribucion()
-	{
-		var nuevoDetalle = new CanalDistribucion { Descripcion = canalDistribucion };
-		modeloNegocio.Canales.Add(nuevoDetalle);
-		StateHasChanged();
-	}
+    private ActividadClave? actividadSeleccionada;
+    private bool mostrarModal = false;
 
-	void AgregarRelacionCliente()
-	{
-		var nuevoDetalle = new RelacionCliente { Descripcion = canalDistribucion };
-		modeloNegocio.Relaciones.Add(nuevoDetalle);
-		StateHasChanged();
-	}
+    void VerActividad(ActividadClave actividad)
+    {
+        actividadSeleccionada = actividad;
+        mostrarModal = true;
+    }
 
-	void AgregarIngresos()
-	{
-		var nuevoDetalle = new IngresoPrecio { Descripcion = canalDistribucion };
-		modeloNegocio.Ingresos.Add(nuevoDetalle);
-		StateHasChanged();
-	}
+    void CerrarModal()
+    {
+        mostrarModal = false;
+    }
 
-	void AgregarRecursoValor()
-	{
-		var nuevoDetalle = new RecursoClave { Descripcion = canalDistribucion };
-		ActividadClave.RecursoClaves.Add(nuevoDetalle);
-		StateHasChanged();
-	}
+    void IrASiguiente()
+    {
+        navigation.NavigateTo($"pantalla#2/{usuario.Nombre}");
+    }
 
-	void NuevaActividadClave()
-	{
-		actividadValor = "";
+    void AgregarCanalDistribucion()
+    {
+        var nuevoDetalle = new CanalDistribucion { Descripcion = canalDistribucion };
+        modeloNegocio.Canales.Add(nuevoDetalle);
+        canalDistribucion = "";
+        StateHasChanged();
+    }
+
+    void EliminarCanalDistribucion(CanalDistribucion canalDistribucion) => modeloNegocio.Canales.Remove(canalDistribucion);
+
+    void AgregarRelacionCliente()
+    {
+        var nuevoDetalle = new RelacionCliente { Descripcion = relacionCliente };
+        modeloNegocio.Relaciones.Add(nuevoDetalle);
+        relacionCliente = "";
+        StateHasChanged();
+    }
+
+    void EliminarRelacionCliente(RelacionCliente relacionCliente) => modeloNegocio.Relaciones.Remove(relacionCliente);
+
+    void AgregarIngresos()
+    {
+        var nuevoDetalle = new IngresoPrecio { Descripcion = ingresos };
+        modeloNegocio.Ingresos.Add(nuevoDetalle);
+        ingresos = "";
+        StateHasChanged();
+    }
+
+    void EliminarIngresos(IngresoPrecio ingresos) => modeloNegocio.Ingresos.Remove(ingresos);
+
+    void AgregarRecursoValor()
+    {
+        var nuevoDetalle = new RecursoClave { Descripcion = recursoValor };
+        ActividadClave.RecursoClaves.Add(nuevoDetalle);
+        recursoValor = "";
+        StateHasChanged();
+    }
+
+    void EliminarRecursoValor(RecursoClave recursoValor) => ActividadClave.RecursoClaves.Remove(recursoValor);
+
+    void NuevaActividadClave()
+    {
+        //var nuevoDetalle = new ActividadClave { Descripcion = actividadValor };
+        modeloNegocio.Actividades.Add(ActividadClave);
+        //actividadValor = "";
 		ActividadClave = new ActividadClave();
 		StateHasChanged();
 	}
+
+    void EliminarActividadValor(ActividadClave actividadValor) => modeloNegocio.Actividades.Remove(actividadValor);
 
 	void Terminar()
 	{
