@@ -17,6 +17,7 @@ builder.Services.AddScoped<ModeloNegocioService>();
 builder.Services.AddScoped<PropuestaValorService>();
 builder.Services.AddScoped<SegmentoMercadoService>();
 builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<ClienteService>();
 
 var app = builder.Build();
 

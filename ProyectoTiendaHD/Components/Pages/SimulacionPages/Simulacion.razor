@@ -1,0 +1,195 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject NavigationManager navigation
+@inject ModeloNegocioService modeloNegocioService
+@inject UsuarioService usuarioService
+@inject SegmentoMercadoService segmentoMercadoService
+@inject PropuestaValorService propuestaValorService
+@inject ClienteService clienteService
+
+<PageTitle>Simulaci&oacute;n</PageTitle>
+
+<h1 class="text-center"><strong>Bienvenido a la simulación<br />de tu Modelo de Negocio</strong></h1>
+
+<div class="card-container">
+    <div class="card">
+        <strong>Clientes</strong>
+        <p>Cantidad: @clientes.Count</p>
+        <button class="btn" @onclick="MostrarModal">Agregar</button>
+    </div>
+
+    <div class="card">
+        <img src="https://img.icons8.com/ios-filled/50/settings.png" alt="Config" class="icon" />
+        <button class="btn">Cambiar Configuracion</button>
+    </div>
+</div>
+
+@* @if (mostrarModal)
+{
+    <div class="modal-overlay @(mostrarModal ? "d-flex" : "d-none")">
+        <div class="modal">
+            <h1 style="color: black;">¡Hola, este es el modal!</h1>
+        </div>
+    </div>
+} *@
+
+@* @if (mostrarModal)
+{
+    <div class="modal-overlay">
+        <div class="modal">
+            <h2>Creación de Cliente</h2>
+
+            <!-- Formulario -->
+
+            <div class="form-row">
+                <label><strong>Nombre</strong></label>
+                <InputText class="form-control" placeholder="Miguel Jiménez" @bind-value="cliente.Nombre"></InputText>
+            </div>
+
+            <div class="form-row">
+                <label><strong>Edad</strong></label>
+                <input type="number" placeholder="45" @bind="cliente.Edad" />
+            </div>
+
+            <hr />
+
+            <h3>¿Cuáles son sus gustos?</h3>
+
+            <div class="form-row gustos-input">
+                <InputText class="form-control" @bind-Value="gusto" placeholder="Servicio rápido" />
+                <button type="button" class="btn btn-success" @onclick="AgregarGusto">
+                    <i class="bi bi-plus-circle"></i> Agregar
+                </button>
+            </div>
+
+            <div class="tabla-gustos">
+                @if (cliente.DetallesGusto.Count > 0)
+                {
+                    <table class="table table-hover table-striped table-bordered shadow-sm">
+                        <thead>
+                            <tr>
+                                <th>Gustos</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detalle in cliente.DetallesGusto)
+                            {
+                                <tr>
+                                    <td>@detalle.Descripcion</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-danger btn-sm" @onclick="()=>EliminarGusto(detalle)">
+                                            🗑️ Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">No se han agregado gustos al cliente aún.</div>
+                }
+            </div>
+
+            <div class="d-flex justify-content-between mt-3">
+                <button class="btn btn-secondary" @onclick="()=>mostrarModal = false">Cancelar</button>
+                <button class="btn guardar" @onclick="Guardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+} *@
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-custom">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><strong>Datos sin guardar</strong></h1>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que quieres salir sin guardar?<br />
+                <em>Si deseas salir pulsa "Salir"</em>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CerrarModal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (mostrarModal)
+{
+    <script>
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        modal.show();
+    </script>
+}
+
+
+
+@* <style>
+    .modal-overlay {
+        display: flex !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+    }
+
+    .modal {
+        background-color: white !important;
+        color: black;
+        padding: 2rem;
+        border-radius: 10px;
+        z-index: 100000;
+    }
+</style> *@
+
+
+@code {
+    public List<Cliente> clientes = new List<Cliente>();
+    public Cliente cliente { get; set; } = new Cliente();
+    public string gusto { get; set; } = "";
+    bool mostrarModal = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clientes = await clienteService.Listar(e => true);
+    }
+
+    void MostrarModal()
+    {
+        mostrarModal = true;
+        StateHasChanged(); // fuerza el renderizado
+    }
+
+    public void CerrarModal()
+    {
+        mostrarModal = false;
+    }
+
+    void AgregarGusto()
+    {
+        
+    }
+
+    void EliminarGusto(Gusto gusto)
+    {
+        
+    }
+
+    void Guardar()
+    {
+        // Aquí puedes guardar los datos o enviarlos a un servicio
+    }
+}
