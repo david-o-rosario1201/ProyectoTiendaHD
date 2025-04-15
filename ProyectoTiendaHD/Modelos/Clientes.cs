@@ -8,12 +8,8 @@ public class Cliente
 	[Key]
 	public int ClienteId { get; set; }
     public string Nombre { get; set; }
-    public int Edad { get; set; }
-
-	[ForeignKey("SegmentoMercado")]
-	public int SegmentoMercadoId { get; set; }
-    public double PorcentajeCoincidencias { get; set; }
-    public SegmentoMercado SegmentoMercado { get; set; }
+    public int? Edad { get; set; }
+    public double? PorcentajeCoincidencias { get; set; }
 
     [ForeignKey("ClienteId")]
 	public ICollection<Gusto> DetallesGusto { get; set; } = new List<Gusto>();
