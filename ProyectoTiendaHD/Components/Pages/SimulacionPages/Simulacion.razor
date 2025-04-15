@@ -86,6 +86,37 @@
 }
 
 
+@if (mostrarModalConfiguracion)
+{
+    <div class="modal-overlay">
+        <div class="modal-content configuracion-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="configuracion-menu">
+                <!-- Sección Propuesta de Valor -->
+                <div class="configuracion-seccion">
+                    <h4>Propuesta de valor</h4>
+                    <ul class="configuracion-opciones">
+                        <button class="btn" @onclick="MostrarModalPropuestaValor">Ver</button>
+                    </ul>
+                </div>
+
+                <!-- Sección Actividades Claves -->
+                <div class="configuracion-seccion">
+                    <h4>Actividades Claves</h4>
+                    <ul class="configuracion-opciones">
+                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-secondary" @onclick="CerrarModalConfiguracion">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}
+
 
 @code {
     public List<Cliente> clientes = new List<Cliente>();
@@ -94,6 +125,16 @@
     bool mostrarModal = false;
     bool mostrarModalConfiguracion = false;
     private string nuevoGusto = string.Empty;
+
+    private bool mostrarModalCliente = false;
+    private bool mostrarModalPropuestaValor = false;
+    private bool mostrarModalActividades = false;
+
+    // Variables para controlar el tipo de vista
+    private string tipoPropuestaValor = "";
+    private string tituloPropuestaValor = "";
+    private string tipoActividades = "";
+    private string tituloActividades = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -118,10 +159,8 @@
         StateHasChanged();
     }
 
-    public void CerrarModal()
-    {
-        mostrarModal = false;
-    }
+    void CerrarModal() => mostrarModal = false;
+    void CerrarModalConfiguracion() => mostrarModalConfiguracion = false;
 
     private void AgregarGusto()
     {
@@ -165,5 +204,16 @@
             // Manejar el error (puedes mostrar un mensaje al usuario)
             Console.WriteLine($"Error al guardar: {ex.Message}");
         }
+    }
+
+
+    void MostrarModalPropuestaValor()
+    {
+        mostrarModalPropuestaValor = true;
+    }
+
+    void MostrarModalActividades()
+    {
+        mostrarModalActividades = true;
     }
 }
