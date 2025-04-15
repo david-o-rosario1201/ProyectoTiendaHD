@@ -12,12 +12,6 @@ builder.Services.AddRazorComponents()
 builder.Services.AddDbContextFactory<Contexto>
 		(o => o.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
 
-//Services
-builder.Services.AddScoped<ModeloNegocioService>();
-builder.Services.AddScoped<PropuestaValorService>();
-builder.Services.AddScoped<SegmentoMercadoService>();
-builder.Services.AddScoped<UsuarioService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
