@@ -22,498 +22,517 @@ namespace ProyectoTiendaHD.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.ActividadClave", b =>
-                {
-                    b.Property<int>("ActividadClaveId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("ActividadClaveId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActividadClaveId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActividadClaveId"));
 
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ModeloNegocioId")
-                        .HasColumnType("int");
+                b.Property<int?>("ModeloNegocioId")
+                    .HasColumnType("int");
 
-                    b.HasKey("ActividadClaveId");
+                b.HasKey("ActividadClaveId");
 
-                    b.HasIndex("ModeloNegocioId");
+                b.HasIndex("ModeloNegocioId");
 
-                    b.ToTable("ActividadeClave");
-                });
+                b.ToTable("ActividadeClave");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CanalDistribucion", b =>
-                {
-                    b.Property<int>("CanalDistribucionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("CanalDistribucionId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CanalDistribucionId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CanalDistribucionId"));
 
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ModeloNegocioId")
-                        .HasColumnType("int");
+                b.Property<int?>("ModeloNegocioId")
+                    .HasColumnType("int");
 
-                    b.HasKey("CanalDistribucionId");
+                b.HasKey("CanalDistribucionId");
 
-                    b.HasIndex("ModeloNegocioId");
+                b.HasIndex("ModeloNegocioId");
 
-                    b.ToTable("CanalDistribucion");
-                });
+                b.ToTable("CanalDistribucion");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.Cliente", b =>
-                {
-                    b.Property<int>("ClienteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("ClienteId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
 
-                        .HasColumnType("int");
+                b.Property<int?>("Edad")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Nombre")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                        .HasColumnType("float");
+                b.Property<double?>("PorcentajeCoincidencias")
+                    .HasColumnType("float");
 
-                    b.Property<int>("SegmentoMercadoId")
-                        .HasColumnType("int");
+                b.HasKey("ClienteId");
 
-                    b.HasKey("ClienteId");
+                b.ToTable("Cliente");
+            });
 
-                    b.HasIndex("SegmentoMercadoId");
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaActividadesValor", b =>
+            {
+                b.Property<int>("CoincidenciaId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.ToTable("Cliente");
-                });
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
 
-                {
-                    b.Property<int>("CoincidenciaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
+                b.HasKey("CoincidenciaId");
 
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.HasIndex("ClienteId");
 
-                    b.HasKey("CoincidenciaId");
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                    b.Property<int>("CoincidenciaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CoincidenciaId");
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                    b.Property<int>("CoincidenciaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CoincidenciaId");
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                    b.Property<int>("CoincidenciaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CoincidenciaId");
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                    b.Property<int>("CoincidenciaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CoincidenciaId");
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UsuarioId");
-
-                    b.ToTable("Usuario");
-                });
-
-            modelBuilder.Entity("TiendaHDProject.Modelos.CoincidenciaActividadesValor", b =>
-                {
-                    b.Property<int>("CoincidenciaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-
-                    b.HasIndex("ClienteId");
-
-                });
-
-                {
-                    b.Property<int>("IngresoPrecioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngresoPrecioId"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ModeloNegocioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IngresoPrecioId");
-
-                    b.HasIndex("ModeloNegocioId");
-
-                    b.ToTable("IngresoPrecio");
-                });
-
-                {
-                    b.Property<int>("ModeloNegocioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModeloNegocioId"));
-
-                    b.Property<int>("PropuestaValorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SegmentoMercadoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ModeloNegocioId");
-
-                    b.HasIndex("PropuestaValorId");
-
-                    b.HasIndex("SegmentoMercadoId");
-
-                    b.ToTable("ModeloNegocio");
-                });
-
-                {
-                    b.Property<int>("PropuestaValorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PropuestaValorId"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PropuestaValorId");
-
-                    b.ToTable("PropuestaValor");
-                });
-
-                {
-                    b.Property<int>("RecursoClaveId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecursoClaveId"));
-
-                    b.Property<int>("ActividadClaveId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RecursoClaveId");
-
-                    b.HasIndex("ActividadClaveId");
-
-                    b.ToTable("RecursoClave");
-                });
-
-                {
-                    b.Property<int>("RelacionClienteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RelacionClienteId"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ModeloNegocioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RelacionClienteId");
-
-                    b.HasIndex("ModeloNegocioId");
-
-                    b.ToTable("RelacionCliente");
-                });
-
-                {
-                    b.Property<int>("SegmentoMercadoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SegmentoMercadoId"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SegmentoMercadoId");
-
-                    b.ToTable("SegmentoMercado");
-                });
-
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.Usuario", b =>
-                {
-                    b.Property<int>("UsuarioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsuarioId"));
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UsuarioId");
-
-                    b.ToTable("Usuario");
-                });
-
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ActividadClave", b =>
-                {
-                        .WithMany("Actividades")
-                        .HasForeignKey("ModeloNegocioId");
-                });
-
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CanalDistribucion", b =>
-                {
-                        .WithMany("Canales")
-                        .HasForeignKey("ModeloNegocioId");
-                });
-
-                {
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SegmentoMercado");
-                });
+                b.ToTable("CoincidenciaActividadesValor");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaCanalesDistribucion", b =>
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("CoincidenciasCanales")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.Property<int>("CoincidenciaId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
+
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("CoincidenciaId");
+
+                b.HasIndex("ClienteId");
+
+                b.ToTable("CoincidenciaCanalesDistribucion");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaIngresosPrecio", b =>
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("CoincidenciasIngresos")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.Property<int>("CoincidenciaId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
+
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("CoincidenciaId");
+
+                b.HasIndex("ClienteId");
+
+                b.ToTable("CoincidenciaIngresosPrecio");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaPropuestaValor", b =>
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("CoincidenciasPropuestaValor")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.Property<int>("CoincidenciaId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
+
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("CoincidenciaId");
+
+                b.HasIndex("ClienteId");
+
+                b.ToTable("CoincidenciaPropuestaValor");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaRelacionCliente", b =>
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("CoincidenciasRelaciones")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.Property<int>("CoincidenciaId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
+
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("CoincidenciaId");
+
+                b.HasIndex("ClienteId");
+
+                b.ToTable("CoincidenciaRelacionCliente");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaSegmentoMercado", b =>
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("CoincidenciasSegmento")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.Property<int>("CoincidenciaId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CoincidenciaId"));
+
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("CoincidenciaId");
+
+                b.HasIndex("ClienteId");
+
+                b.ToTable("CoincidenciaSegmentoMercado");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.Gusto", b =>
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("DetallesGusto")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.Property<int>("GustoId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                {
-                        .WithMany("Ingresos")
-                        .HasForeignKey("ModeloNegocioId");
-                });
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GustoId"));
 
-                {
-                        .WithMany()
-                        .HasForeignKey("PropuestaValorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<int>("ClienteId")
+                    .HasColumnType("int");
 
-                        .WithMany()
-                        .HasForeignKey("SegmentoMercadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("PropuestaValor");
+                b.HasKey("GustoId");
 
-                    b.Navigation("SegmentoMercado");
-                });
+                b.HasIndex("ClienteId");
 
-                {
-                    b.HasOne("ProyectoTiendaHD.Modelos.ActividadClave", null)
-                        .WithMany("RecursoClaves")
-                        .HasForeignKey("ActividadClaveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.ToTable("Gusto");
+            });
 
-                {
-                        .WithMany("Relaciones")
-                        .HasForeignKey("ModeloNegocioId");
-                });
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.IngresoPrecio", b =>
+            {
+                b.Property<int>("IngresoPrecioId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngresoPrecioId"));
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<int?>("ModeloNegocioId")
+                    .HasColumnType("int");
+
+                b.HasKey("IngresoPrecioId");
+
+                b.HasIndex("ModeloNegocioId");
+
+                b.ToTable("IngresoPrecio");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ModeloNegocio", b =>
+            {
+                b.Property<int>("ModeloNegocioId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModeloNegocioId"));
+
+                b.Property<int>("PropuestaValorId")
+                    .HasColumnType("int");
+
+                b.Property<int>("SegmentoMercadoId")
+                    .HasColumnType("int");
+
+                b.HasKey("ModeloNegocioId");
+
+                b.HasIndex("PropuestaValorId");
+
+                b.HasIndex("SegmentoMercadoId");
+
+                b.ToTable("ModeloNegocio");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.PropuestaValor", b =>
+            {
+                b.Property<int>("PropuestaValorId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PropuestaValorId"));
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("PropuestaValorId");
+
+                b.ToTable("PropuestaValor");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RecursoClave", b =>
+            {
+                b.Property<int>("RecursoClaveId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecursoClaveId"));
+
+                b.Property<int>("ActividadClaveId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("RecursoClaveId");
+
+                b.HasIndex("ActividadClaveId");
+
+                b.ToTable("RecursoClave");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RelacionCliente", b =>
+            {
+                b.Property<int>("RelacionClienteId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RelacionClienteId"));
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<int?>("ModeloNegocioId")
+                    .HasColumnType("int");
+
+                b.HasKey("RelacionClienteId");
+
+                b.HasIndex("ModeloNegocioId");
+
+                b.ToTable("RelacionCliente");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.SegmentoMercado", b =>
+            {
+                b.Property<int>("SegmentoMercadoId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SegmentoMercadoId"));
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("SegmentoMercadoId");
+
+                b.ToTable("SegmentoMercado");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.Usuario", b =>
+            {
+                b.Property<int>("UsuarioId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsuarioId"));
+
+                b.Property<string>("Nombre")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("UsuarioId");
+
+                b.ToTable("Usuario");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.ActividadClave", b =>
-                {
-                    b.Navigation("RecursoClaves");
-                });
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
+                    .WithMany("Actividades")
+                    .HasForeignKey("ModeloNegocioId");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CanalDistribucion", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
+                    .WithMany("Canales")
+                    .HasForeignKey("ModeloNegocioId");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaActividadesValor", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("CoincidenciasActividades")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaCanalesDistribucion", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("CoincidenciasCanales")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaIngresosPrecio", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("CoincidenciasIngresos")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaPropuestaValor", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("CoincidenciasPropuestaValor")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaRelacionCliente", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("CoincidenciasRelaciones")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaSegmentoMercado", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("CoincidenciasSegmento")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.Gusto", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
+                    .WithMany("DetallesGusto")
+                    .HasForeignKey("ClienteId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.IngresoPrecio", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
+                    .WithMany("Ingresos")
+                    .HasForeignKey("ModeloNegocioId");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ModeloNegocio", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.PropuestaValor", "PropuestaValor")
+                    .WithMany()
+                    .HasForeignKey("PropuestaValorId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("ProyectoTiendaHD.Modelos.SegmentoMercado", "SegmentoMercado")
+                    .WithMany()
+                    .HasForeignKey("SegmentoMercadoId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("PropuestaValor");
+
+                b.Navigation("SegmentoMercado");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RecursoClave", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.ActividadClave", null)
+                    .WithMany("RecursoClaves")
+                    .HasForeignKey("ActividadClaveId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RelacionCliente", b =>
+            {
+                b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
+                    .WithMany("Relaciones")
+                    .HasForeignKey("ModeloNegocioId");
+            });
+
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ActividadClave", b =>
+            {
+                b.Navigation("RecursoClaves");
+            });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.Cliente", b =>
-                {
-                    b.Navigation("CoincidenciasActividades");
+            {
+                b.Navigation("CoincidenciasActividades");
 
-                    b.Navigation("CoincidenciasCanales");
+                b.Navigation("CoincidenciasCanales");
 
-                    b.Navigation("CoincidenciasIngresos");
+                b.Navigation("CoincidenciasIngresos");
 
-                    b.Navigation("CoincidenciasPropuestaValor");
+                b.Navigation("CoincidenciasPropuestaValor");
 
-                    b.Navigation("CoincidenciasRelaciones");
+                b.Navigation("CoincidenciasRelaciones");
 
-                    b.Navigation("CoincidenciasSegmento");
+                b.Navigation("CoincidenciasSegmento");
 
-                    b.Navigation("DetallesGusto");
-                });
+                b.Navigation("DetallesGusto");
+            });
 
-                {
-                    b.Navigation("Actividades");
+            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ModeloNegocio", b =>
+            {
+                b.Navigation("Actividades");
 
-                    b.Navigation("Canales");
+                b.Navigation("Canales");
 
-                    b.Navigation("Ingresos");
+                b.Navigation("Ingresos");
 
-                    b.Navigation("Relaciones");
-                });
+                b.Navigation("Relaciones");
+            });
 #pragma warning restore 612, 618
         }
     }
