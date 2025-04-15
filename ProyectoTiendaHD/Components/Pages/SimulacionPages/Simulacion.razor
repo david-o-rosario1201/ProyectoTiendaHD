@@ -184,22 +184,22 @@ else
 
                     <div class="configuracion-seccion">
                         <h4>Canales de distribución</h4>
-                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                        <button class="btn" @onclick="MostrarModalCanalDis">Ver</button>
                     </div>
 
                     <div class="configuracion-seccion">
                         <h4>Ingresos / Precios</h4>
-                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                        <button class="btn" @onclick="MostrarModalIngresos">Ver</button>
                     </div>
 
                     <div class="configuracion-seccion">
                         <h4>Relación cliente</h4>
-                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                        <button class="btn" @onclick="MostrarModalRelacionCliente">Ver</button>
                     </div>
 
                     <div class="configuracion-seccion">
                         <h4>Segmento de mercado</h4>
-                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                        <button class="btn" @onclick="MostrarModalSegmentoMercado">Ver</button>
                     </div>
                 </div>
 
@@ -224,6 +224,10 @@ else
     private bool mostrarModalCliente = false;
     private bool mostrarModalPropuestaValor = false;
     private bool mostrarModalActividades = false;
+    private bool mostrarModalCanalDis = false;
+    private bool mostrarModalIngresos = false;
+    private bool mostrarModalRelacionCliente = false;
+    private bool mostrarModalSegmentoMercado = false;
 
     private string tipoPropuestaValor = "";
     private string tituloPropuestaValor = "";
@@ -620,5 +624,25 @@ else
     void MostrarModalActividades()
     {
         mostrarModalActividades = true;
+    }
+
+    void MostrarModalCanalDis()
+    {
+        mostrarModalCanalDis = true;
+    }
+
+    void MostrarModalIngresos()
+    {
+        mostrarModalIngresos = true;
+    }
+
+    void MostrarModalRelacionCliente()
+    {
+        mostrarModalRelacionCliente = true;
+    }
+
+    void MostrarModalSegmentoMercado()
+    {
+        mostrarModalSegmentoMercado = true;
     }
 }
