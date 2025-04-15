@@ -253,3 +253,29 @@ thead tr th.bg-light {
     background-color: #22c55e;
     color: white;
 }
+
+
+.color-circulo {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.rojo {
+    background-color: red;
+}
+
+.anaranjado {
+    background-color: orange;
+}
+
+.amarillo {
+    background-color: yellow;
+}
+
+.verde {
+    background-color: green;
+}
