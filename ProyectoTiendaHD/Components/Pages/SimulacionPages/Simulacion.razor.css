@@ -253,3 +253,35 @@ thead tr th.bg-light {
     background-color: #22c55e;
     color: white;
 }
+.configuracion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.configuracion-seccion {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .configuracion-seccion h4 {
+        margin-bottom: 1rem;
+        text-align: center;
+        color: #333;
+    }
+
+    .configuracion-seccion .btn {
+        width: 100%;
+        max-width: 120px;
+    }
+
+.modal-content.configuracion-content {
+    max-width: 800px;
+    width: 90%;
+}

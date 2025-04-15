@@ -165,31 +165,50 @@ else
 
 @if (mostrarModalConfiguracion)
 {
-    <div class="modal-overlay">
-        <div class="modal-content configuracion-content">
-            <h3 class="modal-titulo">Menú de Configuración</h3>
+    @if (mostrarModalConfiguracion)
+    {
+        <div class="modal-overlay">
+            <div class="modal-content configuracion-content">
+                <h3 class="modal-titulo">Menú de Configuración</h3>
 
-            <div class="configuracion-menu">
-                <div class="configuracion-seccion">
-                    <h4>Propuesta de valor</h4>
-                    <ul class="configuracion-opciones">
+                <div class="configuracion-grid">
+                    <div class="configuracion-seccion">
+                        <h4>Propuesta de valor</h4>
                         <button class="btn" @onclick="MostrarModalPropuestaValor">Ver</button>
-                    </ul>
-                </div>
+                    </div>
 
-                <div class="configuracion-seccion">
-                    <h4>Actividades Claves</h4>
-                    <ul class="configuracion-opciones">
+                    <div class="configuracion-seccion">
+                        <h4>Actividades Claves</h4>
                         <button class="btn" @onclick="MostrarModalActividades">Ver</button>
-                    </ul>
-                </div>
-            </div>
+                    </div>
 
-            <div class="form-actions">
-                <button class="btn btn-secondary" @onclick="CerrarModalConfiguracion">Cerrar</button>
+                    <div class="configuracion-seccion">
+                        <h4>Canales de distribución</h4>
+                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                    </div>
+
+                    <div class="configuracion-seccion">
+                        <h4>Ingresos / Precios</h4>
+                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                    </div>
+
+                    <div class="configuracion-seccion">
+                        <h4>Relación cliente</h4>
+                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                    </div>
+
+                    <div class="configuracion-seccion">
+                        <h4>Segmento de mercado</h4>
+                        <button class="btn" @onclick="MostrarModalActividades">Ver</button>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-secondary" @onclick="CerrarModalConfiguracion">Cerrar</button>
+                </div>
             </div>
         </div>
-    </div>
+    }
 }
 
 
