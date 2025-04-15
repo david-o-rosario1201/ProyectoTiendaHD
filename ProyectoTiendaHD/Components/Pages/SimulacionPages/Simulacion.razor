@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Text
 @rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject ModeloNegocioService modeloNegocioService
@@ -22,7 +23,83 @@
         <img src="https://img.icons8.com/ios-filled/50/settings.png" alt="Config" class="icon" />
         <button class="btn" @onclick="MostrarModalConfiguracion">Cambiar Configuracion</button>
     </div>
-</div>
+</div> <!-- FIN card-container -->
+
+<!-- 🧾 Mostrar datos del cliente debajo -->
+@if (clientes != null && clientes.Any())
+{
+    @foreach (var cliente in clientes)
+    {
+        <div class="card-body mb-4">
+            <h4>Datos del Cliente</h4>
+            <ul>
+                <li><strong>Nombre:</strong> @cliente.Nombre</li>
+                <li><strong>Gustos que coinciden:</strong></li>
+                <li><strong>Segmento de mercado:</strong></li>
+
+                @if (cliente.CoincidenciasSegmento != null && cliente.CoincidenciasSegmento.Any())
+                {
+                    @foreach (var coincidencia in cliente.CoincidenciasSegmento)
+                    {
+                        <li>@coincidencia.Descripcion</li>
+                    }
+                }
+                else
+                {
+                    <li>No hay coincidencias con el segmento.</li>
+                }
+
+                @if (cliente.CoincidenciasPropuestaValor != null && cliente.CoincidenciasPropuestaValor.Any())
+                {
+                    @foreach (var coincidencia in cliente.CoincidenciasPropuestaValor)
+                    {
+                        <li>@coincidencia.Descripcion</li>
+                    }
+                }
+                else
+                {
+                    <li>No hay coincidencias con la propuesta de valor.</li>
+                }
+
+                @if (cliente.CoincidenciasCanales != null && cliente.CoincidenciasCanales.Any())
+                {
+                    @foreach (var coincidencia in cliente.CoincidenciasCanales)
+                    {
+                        <li>@coincidencia.Descripcion</li>
+                    }
+                }
+                else
+                {
+                    <li>No hay coincidencias con los canales de distribuci&oacute;n</li>
+                }
+
+                @if (cliente.CoincidenciasActividades != null && cliente.CoincidenciasActividades.Any())
+                {
+                    @foreach (var coincidencia in cliente.CoincidenciasActividades)
+                    {
+                        <li>@coincidencia.Descripcion</li>
+                    }
+                }
+                else
+                {
+                    <li>No hay coincidencias con las actividades de valor</li>
+                }
+
+                <li>
+                    <strong>Porcentaje:</strong> @cliente.PorcentajeCoincidencias (%)
+                    <span class="color-circulo @ObtenerColorPorcentaje(cliente.PorcentajeCoincidencias ?? 0)"></span>
+                </li>
+            </ul>
+        </div>
+    }
+}
+else
+{
+    <p>No hay clientes disponibles.</p>
+}
+
+
+
 
 @if (mostrarModal)
 {
@@ -119,6 +196,7 @@
 @code {
     public List<Cliente> clientes = new List<Cliente>();
     public Cliente cliente { get; set; } = new Cliente();
+    public ModeloNegocio modeloNegocio { get; set; } = new ModeloNegocio();
     public string gusto { get; set; } = "";
     bool mostrarModal = false;
     bool mostrarModalConfiguracion = false;
@@ -128,7 +206,6 @@
     private bool mostrarModalPropuestaValor = false;
     private bool mostrarModalActividades = false;
 
-
     private string tipoPropuestaValor = "";
     private string tituloPropuestaValor = "";
     private string tipoActividades = "";
@@ -137,6 +214,25 @@
     protected override async Task OnInitializedAsync()
     {
         await CargarClientes();
+        await Task.Delay(100);
+
+        await CargarModeloNegocio();
+        await Task.Delay(100);
+
+        await IniciarSimulacion();
+    }
+
+
+    private string ObtenerColorPorcentaje(double porcentaje)
+    {
+        if (porcentaje <= 30)
+            return "rojo";
+        else if (porcentaje <= 50)
+            return "anaranjado";
+        else if (porcentaje <= 79)
+            return "amarillo";
+        else
+            return "verde";
     }
 
     void MostrarModal()
@@ -179,8 +275,302 @@
     private async Task CargarClientes()
     {
         clientes = await clienteService.Listar(e => true);
+
+        //Borrar despues
+        cliente = await clienteService.Buscar(1);
         StateHasChanged();
     }
+
+    private async Task CargarModeloNegocio()
+    {
+        modeloNegocio = await modeloNegocioService.Buscar(1); ;
+        StateHasChanged();
+    }
+
+    async Task IniciarSimulacion()
+    {
+        var segmento = await segmentoMercadoService.Buscar(modeloNegocio.SegmentoMercadoId);
+        var propuesta = await propuestaValorService.Buscar(modeloNegocio.PropuestaValorId);
+
+        foreach (var cli in clientes)
+        {
+            cli.CoincidenciasSegmento = new List<CoincidenciaSegmentoMercado>(); // Limpiar resultados anteriores
+
+            bool coincideEdad = CoincideEdadConSegmento(segmento.Descripcion, cli.Edad ?? 0);
+
+            if (coincideEdad)
+            {
+                cli.CoincidenciasSegmento.Add(new CoincidenciaSegmentoMercado
+                    {
+                        ClienteId = cli.ClienteId,
+                        Descripcion = "El cliente está en el rango de edad"
+                    });
+            }
+
+            var gustosCoincidentes = ObtenerGustosCoincidentes(segmento.Descripcion, cli.DetallesGusto);
+
+            foreach (var coincidencia in gustosCoincidentes)
+            {
+                cli.CoincidenciasSegmento.Add(new CoincidenciaSegmentoMercado
+                    {
+                        ClienteId = cli.ClienteId,
+                        Descripcion = coincidencia
+                    });
+            }
+
+            var propuestaCoincidencias = EvaluarPropuestaDeValor(cli, propuesta);
+            foreach (var coincidencia in propuestaCoincidencias)
+            {
+                cli.CoincidenciasPropuestaValor.Add(new CoincidenciaPropuestaValor
+                    {
+                        ClienteId = cli.ClienteId,
+                        Descripcion = coincidencia
+                    });
+            }
+
+            var coincidenciasCanales = EvaluarCanalesDistribucion(cli);
+
+            foreach (var coincidencia in coincidenciasCanales)
+            {
+                cli.CoincidenciasCanales.Add(new CoincidenciaCanalesDistribucion
+                    {
+                        ClienteId = cli.ClienteId,
+                        Descripcion = coincidencia
+                    });
+            }
+
+            var coincidenciasActividades = EvaluarActividadesValor(cli);
+
+            foreach (var coincidencia in coincidenciasActividades)
+            {
+                cli.CoincidenciasActividades.Add(new CoincidenciaActividadesValor
+                    {
+                        ClienteId = cli.ClienteId,
+                        Descripcion = coincidencia
+                    });
+            }
+
+            int totalCoincidencias = 0;
+
+            if (cli.CoincidenciasSegmento.Any())
+                totalCoincidencias++;
+
+            if (cli.CoincidenciasPropuestaValor.Any())
+                totalCoincidencias++;
+
+            if (cli.CoincidenciasCanales.Any())
+                totalCoincidencias++;
+
+            if (cli.CoincidenciasActividades.Any())
+                totalCoincidencias++;
+
+            cli.PorcentajeCoincidencias = Math.Min(((double)totalCoincidencias / 4) * 100, 100);
+        }
+
+        StateHasChanged();
+    }
+
+    public List<string> EvaluarPropuestaDeValor(Cliente cliente, PropuestaValor propuesta)
+    {
+        var coincidencias = new List<string>();
+
+        if (propuesta == null || string.IsNullOrWhiteSpace(propuesta.Descripcion))
+            return coincidencias;
+
+        // Limpiar y convertir todo a minúsculas sin tildes
+        var descripcionPropuesta = QuitarAcentos(propuesta.Descripcion.ToLower());
+
+        // Convertir gustos en palabras individuales, sin tildes
+        var gustos = cliente.DetallesGusto
+            .Where(g => !string.IsNullOrWhiteSpace(g.Descripcion))
+            .SelectMany(g => QuitarAcentos(g.Descripcion.ToLower()).Split(' '))
+            .Distinct()
+            .ToList();
+
+        foreach (var palabra in gustos)
+        {
+            if (descripcionPropuesta.Contains(palabra))
+            {
+                coincidencias.Add($"Coincide con la propuesta de valor: {palabra}");
+            }
+        }
+
+        return coincidencias;
+    }
+
+    public static string QuitarAcentos(string texto)
+    {
+        var normalized = texto.Normalize(System.Text.NormalizationForm.FormD);
+        var sb = new StringBuilder();
+
+        foreach (var c in normalized)
+        {
+            if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+            {
+                sb.Append(c);
+            }
+        }
+
+        return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
+    }
+
+
+
+    // List<string> EvaluarPropuestaDeValor(Cliente cliente)
+    // {
+    //     var palabrasClave = new List<string>
+    // {
+    //     "cafe", "cafe artesanal", "artesanal", "alta calidad", "calidad",
+    //     "rápido", "menos de 20 minutos", "20 minutos", "entrega rápida",
+    //     "domicilio", "a domicilio", "personalizado", "personalizadas",
+    //     "opciones personalizadas", "atención amigable", "servicio amable",
+    //     "servicio personalizado", "trato cercano", "experiencia agradable"
+    // };
+
+    //     var gustos = cliente.DetallesGusto.Select(g => g.Descripcion.ToLower()).ToList();
+    //     var coincidencias = new List<string>();
+
+    //     foreach (var palabraClave in palabrasClave)
+    //     {
+    //         foreach (var gusto in gustos)
+    //         {
+    //             if (gusto.Contains(palabraClave.ToLower()))
+    //             {
+    //                 coincidencias.Add($"Coincide con la propuesta de valor: {palabraClave}");
+    //                 break; // evitar duplicados
+    //             }
+    //         }
+    //     }
+
+    //     return coincidencias;
+    // }
+
+    List<string> EvaluarCanalesDistribucion(Cliente cliente)
+    {
+        var palabrasClave = new List<string>
+    {
+        "instagram", "facebook", "tiktok", "redes sociales",
+        "app", "aplicacion", "pagina web", "web", "internet",
+        "whatsapp", "mensaje", "tienda física", "presencial", "local"
+    };
+
+        var gustos = cliente.DetallesGusto.Select(g => g.Descripcion.ToLower()).ToList();
+        var coincidencias = new List<string>();
+
+        foreach (var palabraClave in palabrasClave)
+        {
+            foreach (var gusto in gustos)
+            {
+                if (gusto.Contains(palabraClave.ToLower()))
+                {
+                    coincidencias.Add($"Coincide con canal de distribución: {palabraClave}");
+                    break;
+                }
+            }
+        }
+
+        return coincidencias;
+    }
+
+    public List<string> EvaluarActividadesValor(Cliente cliente)
+    {
+        var palabrasClave = new List<string>
+    {
+        "produccion", "logistica", "distribucion", "marketing", "publicidad",
+        "atencion", "clientes", "servicio", "ventas", "promocion",
+        "redes", "sociales", "campañas", "digitales", "contenido",
+        "gestionar", "coordinar", "ofrecer", "desarrollar", "mejorar",
+        "preparar", "cocinar"
+    };
+
+        var gustos = cliente.DetallesGusto
+                            .Where(g => !string.IsNullOrWhiteSpace(g.Descripcion))
+                            .SelectMany(g => g.Descripcion
+                                              .ToLower()
+                                              .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                            .Distinct()
+                            .ToList();
+
+        var coincidencias = new List<string>();
+
+        foreach (var palabraClave in palabrasClave)
+        {
+            if (gustos.Any(g => g == palabraClave))
+            {
+                coincidencias.Add($"Coincide con actividad de valor: {palabraClave}");
+            }
+        }
+
+        return coincidencias;
+    }
+
+
+
+    public class SegmentoEdad
+    {
+        public string Nombre { get; set; }
+        public int EdadMin { get; set; }
+        public int EdadMax { get; set; }
+    }
+
+    public class EvaluadorSegmento
+    {
+        private List<SegmentoEdad> segmentosEdad = new List<SegmentoEdad>
+        {
+            new SegmentoEdad { Nombre = "niño", EdadMin = 5, EdadMax = 10 },
+            new SegmentoEdad { Nombre = "adolescente", EdadMin = 11, EdadMax = 17 },
+            new SegmentoEdad { Nombre = "joven", EdadMin = 18, EdadMax = 35 },
+            new SegmentoEdad { Nombre = "adulto", EdadMin = 36, EdadMax = 50 },
+            new SegmentoEdad { Nombre = "mayor", EdadMin = 51, EdadMax = 120 }
+        };
+    }
+
+    public bool CoincideEdadConSegmento(string descripcionSegmento, int edadCliente)
+    {
+        var segmentosEdad = new List<SegmentoEdad>
+    {
+        new SegmentoEdad { Nombre = "niño", EdadMin = 5, EdadMax = 10 },
+        new SegmentoEdad { Nombre = "adolescente", EdadMin = 11, EdadMax = 17 },
+        new SegmentoEdad { Nombre = "joven", EdadMin = 18, EdadMax = 35 },
+        new SegmentoEdad { Nombre = "adulto", EdadMin = 36, EdadMax = 50 },
+        new SegmentoEdad { Nombre = "mayor", EdadMin = 51, EdadMax = 120 }
+    };
+
+        string primeraPalabra = descripcionSegmento.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0]
+            .ToLower()
+            .TrimEnd('.', ',');
+
+        var segmento = segmentosEdad.FirstOrDefault(s => primeraPalabra.Contains(s.Nombre));
+        return segmento != null && edadCliente >= segmento.EdadMin && edadCliente <= segmento.EdadMax;
+    }
+
+    public List<string> ObtenerGustosCoincidentes(string descripcionSegmento, ICollection<Gusto> gustosCliente)
+    {
+        var coincidencias = new List<string>();
+
+        if (gustosCliente == null || gustosCliente.Count == 0)
+            return coincidencias;
+
+        var interesesClave = new List<string>
+    {
+        "cafe", "digitales", "servicios rápidos", "trabajar desde casa", "oficina"
+    };
+
+        foreach (var gusto in gustosCliente)
+        {
+            string descripcionGusto = gusto.Descripcion?.ToLower() ?? "";
+            foreach (var interes in interesesClave)
+            {
+                if (descripcionGusto.Contains(interes.ToLower()))
+                {
+                    coincidencias.Add($"Coincide con: \"{interes}\" por el gusto \"{gusto.Descripcion}\"");
+                }
+            }
+        }
+
+        return coincidencias;
+    }
+
 
     private async Task Guardar()
     {
