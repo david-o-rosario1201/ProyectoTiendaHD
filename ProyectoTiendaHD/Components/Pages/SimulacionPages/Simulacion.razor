@@ -93,7 +93,6 @@
             <h3 class="modal-titulo">Menú de Configuración</h3>
 
             <div class="configuracion-menu">
-                <!-- Sección Propuesta de Valor -->
                 <div class="configuracion-seccion">
                     <h4>Propuesta de valor</h4>
                     <ul class="configuracion-opciones">
@@ -101,7 +100,6 @@
                     </ul>
                 </div>
 
-                <!-- Sección Actividades Claves -->
                 <div class="configuracion-seccion">
                     <h4>Actividades Claves</h4>
                     <ul class="configuracion-opciones">
@@ -130,7 +128,7 @@
     private bool mostrarModalPropuestaValor = false;
     private bool mostrarModalActividades = false;
 
-    // Variables para controlar el tipo de vista
+
     private string tipoPropuestaValor = "";
     private string tituloPropuestaValor = "";
     private string tipoActividades = "";
@@ -190,7 +188,6 @@
         {
             if (string.IsNullOrWhiteSpace(cliente.Nombre))
             {
-                // Mostrar mensaje de error
                 Console.WriteLine($"Error al guardar: Nombre nulo");
                 return;
             }
@@ -201,7 +198,6 @@
         }
         catch (Exception ex)
         {
-            // Manejar el error (puedes mostrar un mensaje al usuario)
             Console.WriteLine($"Error al guardar: {ex.Message}");
         }
     }
