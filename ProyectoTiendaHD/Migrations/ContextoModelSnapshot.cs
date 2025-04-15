@@ -73,22 +73,24 @@ namespace ProyectoTiendaHD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
 
-                    b.Property<int?>("Edad")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("PorcentajeCoincidencias")
                         .HasColumnType("float");
 
+                    b.Property<int>("SegmentoMercadoId")
+                        .HasColumnType("int");
+
                     b.HasKey("ClienteId");
+
+                    b.HasIndex("SegmentoMercadoId");
 
                     b.ToTable("Cliente");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaActividadesValor", b =>
                 {
                     b.Property<int>("CoincidenciaId")
                         .ValueGeneratedOnAdd()
@@ -107,10 +109,8 @@ namespace ProyectoTiendaHD.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CoincidenciaActividadesValor");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaCanalesDistribucion", b =>
                 {
                     b.Property<int>("CoincidenciaId")
                         .ValueGeneratedOnAdd()
@@ -129,10 +129,8 @@ namespace ProyectoTiendaHD.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CoincidenciaCanalesDistribucion");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaIngresosPrecio", b =>
                 {
                     b.Property<int>("CoincidenciaId")
                         .ValueGeneratedOnAdd()
@@ -151,10 +149,8 @@ namespace ProyectoTiendaHD.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CoincidenciaIngresosPrecio");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaPropuestaValor", b =>
                 {
                     b.Property<int>("CoincidenciaId")
                         .ValueGeneratedOnAdd()
@@ -173,10 +169,8 @@ namespace ProyectoTiendaHD.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CoincidenciaPropuestaValor");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaRelacionCliente", b =>
                 {
                     b.Property<int>("CoincidenciaId")
                         .ValueGeneratedOnAdd()
@@ -195,10 +189,40 @@ namespace ProyectoTiendaHD.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CoincidenciaRelacionCliente");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaSegmentoMercado", b =>
+                {
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+
+                    b.HasIndex("ClienteId");
+
+                });
+
+                {
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UsuarioId");
+
+                    b.ToTable("Usuario");
+                });
+
+            modelBuilder.Entity("TiendaHDProject.Modelos.CoincidenciaActividadesValor", b =>
                 {
                     b.Property<int>("CoincidenciaId")
                         .ValueGeneratedOnAdd()
@@ -213,36 +237,11 @@ namespace ProyectoTiendaHD.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CoincidenciaId");
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("CoincidenciaSegmentoMercado");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.Gusto", b =>
-                {
-                    b.Property<int>("GustoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GustoId"));
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("GustoId");
-
-                    b.HasIndex("ClienteId");
-
-                    b.ToTable("Gusto");
-                });
-
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.IngresoPrecio", b =>
                 {
                     b.Property<int>("IngresoPrecioId")
                         .ValueGeneratedOnAdd()
@@ -264,7 +263,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.ToTable("IngresoPrecio");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ModeloNegocio", b =>
                 {
                     b.Property<int>("ModeloNegocioId")
                         .ValueGeneratedOnAdd()
@@ -287,7 +285,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.ToTable("ModeloNegocio");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.PropuestaValor", b =>
                 {
                     b.Property<int>("PropuestaValorId")
                         .ValueGeneratedOnAdd()
@@ -304,7 +301,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.ToTable("PropuestaValor");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RecursoClave", b =>
                 {
                     b.Property<int>("RecursoClaveId")
                         .ValueGeneratedOnAdd()
@@ -326,7 +322,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.ToTable("RecursoClave");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RelacionCliente", b =>
                 {
                     b.Property<int>("RelacionClienteId")
                         .ValueGeneratedOnAdd()
@@ -348,7 +343,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.ToTable("RelacionCliente");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.SegmentoMercado", b =>
                 {
                     b.Property<int>("SegmentoMercadoId")
                         .ValueGeneratedOnAdd()
@@ -384,25 +378,21 @@ namespace ProyectoTiendaHD.Migrations
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.ActividadClave", b =>
                 {
-                    b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
                         .WithMany("Actividades")
                         .HasForeignKey("ModeloNegocioId");
                 });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CanalDistribucion", b =>
                 {
-                    b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
                         .WithMany("Canales")
                         .HasForeignKey("ModeloNegocioId");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaActividadesValor", b =>
                 {
-                    b.HasOne("ProyectoTiendaHD.Modelos.Cliente", null)
-                        .WithMany("CoincidenciasActividades")
-                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("SegmentoMercado");
                 });
 
             modelBuilder.Entity("ProyectoTiendaHD.Modelos.CoincidenciaCanalesDistribucion", b =>
@@ -459,22 +449,17 @@ namespace ProyectoTiendaHD.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.IngresoPrecio", b =>
                 {
-                    b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
                         .WithMany("Ingresos")
                         .HasForeignKey("ModeloNegocioId");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ModeloNegocio", b =>
                 {
-                    b.HasOne("ProyectoTiendaHD.Modelos.PropuestaValor", "PropuestaValor")
                         .WithMany()
                         .HasForeignKey("PropuestaValorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoTiendaHD.Modelos.SegmentoMercado", "SegmentoMercado")
                         .WithMany()
                         .HasForeignKey("SegmentoMercadoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -485,7 +470,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.Navigation("SegmentoMercado");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RecursoClave", b =>
                 {
                     b.HasOne("ProyectoTiendaHD.Modelos.ActividadClave", null)
                         .WithMany("RecursoClaves")
@@ -494,9 +478,7 @@ namespace ProyectoTiendaHD.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.RelacionCliente", b =>
                 {
-                    b.HasOne("ProyectoTiendaHD.Modelos.ModeloNegocio", null)
                         .WithMany("Relaciones")
                         .HasForeignKey("ModeloNegocioId");
                 });
@@ -523,7 +505,6 @@ namespace ProyectoTiendaHD.Migrations
                     b.Navigation("DetallesGusto");
                 });
 
-            modelBuilder.Entity("ProyectoTiendaHD.Modelos.ModeloNegocio", b =>
                 {
                     b.Navigation("Actividades");
 
