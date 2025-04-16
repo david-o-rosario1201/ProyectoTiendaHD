@@ -212,10 +212,413 @@ else
 }
 
 
+@if (mostrarModalPropuestaValor)
+{
+    <div class="modal-overlay">
+        <div class="modal-content propuesta-valor-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="propuesta-valor-container">
+                <h4>¿Cuál es tu Propuesta de Valor?</h4>
+
+                <div class="form-group">
+                    <textarea class="form-control propuesta-textarea"
+                    @bind="modeloNegocio.PropuestaValor.Descripcion"
+                    placeholder="Describe tu propuesta de valor..."></textarea>
+                </div>
+
+                <div class="propuesta-guardar">
+                    <button class="btn-guardar" @onclick="GuardarPropuestaValor">Guardar</button>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-secondary" @onclick="CerrarModalPropuestaValor">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (mostrarModalActividades)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="actividades-container">
+                <h4>Actividades Claves</h4>
+
+                <div class="actividades-actions">
+                    <button class="btn-agregar" @onclick="CerrarModalActividades">Volver</button>
+                    <button class="btn-agregar" @onclick="MostrarModalAgregarActividad">Agregar</button>
+                </div>
+
+                <div class="actividades-table-container">
+                    <table class="actividades-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var actividad in modeloNegocio.Actividades)
+                            {
+                                <tr>
+                                    <td>@actividad.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarActividad(actividad)">✅</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (mostrarModalAgregarActividad)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-clave-content">
+            <h3 class="modal-titulo">¿Cuáles son tus actividades claves?</h3>
+
+            <div class="agregar-actividad">
+                <div class="agregar-input-container">
+                    <InputText class="form-control" @bind-Value="nuevaActividadDescripcion"
+                    placeholder="Ej: Cafetera industrial" />
+                    <button class="btn-agregar" @onclick="AgregarActividad">Agregar</button>
+                </div>
+            </div>
+
+            <div class="actividades-table-container">
+                <table class="actividades-table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var actividad in modeloNegocio.Actividades)
+                        {
+                            <tr>
+                                <td>@actividad.Descripcion</td>
+                                <td>
+                                    <button class="btn-opcion" @onclick="() => EliminarActividad(actividad)">💬</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-guardar" @onclick="GuardarActividades">Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (mostrarModalCanalDis)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="actividades-container">
+                <h4>Canal de distribuci&oacute;n</h4>
+
+                <div class="actividades-actions">
+                    <button class="btn-agregar" @onclick="CerrarModalCanalDis">Volver</button>
+                    <button class="btn-agregar" @onclick="MostrarModalAgregarCanal">Agregar</button>
+                </div>
+
+                <div class="actividades-table-container">
+                    <table class="actividades-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var canal in modeloNegocio.Canales)
+                            {
+                                <tr>
+                                    <td>@canal.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarCanal(canal)">✅</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (mostrarModalAgregarCanal)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-clave-content">
+            <h3 class="modal-titulo">Canal de Distribuci&oacute;n</h3>
+
+            <div class="agregar-actividad">
+                <div class="agregar-input-container">
+                    <InputText class="form-control" @bind-Value="nuevaCanalDescripcion"
+                               placeholder="Ej: Cafetera industrial" />
+                    <button class="btn-agregar" @onclick="AgregarActividad">Agregar</button>
+                </div>
+            </div>
+
+            <div class="actividades-table-container">
+                <table class="actividades-table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var actividad in modeloNegocio.Canales)
+                        {
+                            <tr>
+                                <td>@actividad.Descripcion</td>
+                                <td>
+                                    <button class="btn-opcion" @onclick="() => EliminarCanal(actividad)">💬</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-guardar" @onclick="GuardarCanal">Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (mostrarModalIngresos)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="actividades-container">
+                <h4>Ingresos / Precios</h4>
+
+                <div class="actividades-actions">
+                    <button class="btn-agregar" @onclick="CerrarModalIngresos">Volver</button>
+                    <button class="btn-agregar" @onclick="MostrarModalAgregarIngresos">Agregar</button>
+                </div>
+
+                <div class="actividades-table-container">
+                    <table class="actividades-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ingresos in modeloNegocio.Ingresos)
+                            {
+                                <tr>
+                                    <td>@ingresos.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarIngresos(ingresos)">✅</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (mostrarModalAgregarIngresos)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-clave-content">
+            <h3 class="modal-titulo">Ingresos / Precios</h3>
+
+            <div class="agregar-actividad">
+                <div class="agregar-input-container">
+                    <InputText class="form-control" @bind-Value="nuevaIngresoDescripcion"
+                               placeholder="Ej: Cafetera industrial" />
+                    <button class="btn-agregar" @onclick="AgregarIngresos">Agregar</button>
+                </div>
+            </div>
+
+            <div class="actividades-table-container">
+                <table class="actividades-table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var actividad in modeloNegocio.Canales)
+                        {
+                            <tr>
+                                <td>@actividad.Descripcion</td>
+                                <td>
+                                    <button class="btn-opcion" @onclick="() => EliminarCanal(actividad)">💬</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-guardar" @onclick="GuardarIngresos">Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@if (mostrarModalRelacionCliente)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="actividades-container">
+                <h4>Relacion Cliente</h4>
+
+                <div class="actividades-actions">
+                    <button class="btn-agregar" @onclick="CerrarModalRelacionCliente">Volver</button>
+                    <button class="btn-agregar" @onclick="MostrarModalAgregarRelacionCliente">Agregar</button>
+                </div>
+
+                <div class="actividades-table-container">
+                    <table class="actividades-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ingresos in modeloNegocio.Relaciones)
+                            {
+                                <tr>
+                                    <td>@ingresos.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarRelacionCliente(ingresos)">✅</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (mostrarModalAgregarRelacionCliente)
+{
+    <div class="modal-overlay">
+        <div class="modal-content actividades-clave-content">
+            <h3 class="modal-titulo">Relacion Cliente</h3>
+
+            <div class="agregar-actividad">
+                <div class="agregar-input-container">
+                    <InputText class="form-control" @bind-Value="nuevaRelacionClienteDescripcion"
+                               placeholder="Ej: Cafetera industrial" />
+                    <button class="btn-agregar" @onclick="AgregarRelacionCliente">Agregar</button>
+                </div>
+            </div>
+
+            <div class="actividades-table-container">
+                <table class="actividades-table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var actividad in modeloNegocio.Relaciones)
+                        {
+                            <tr>
+                                <td>@actividad.Descripcion</td>
+                                <td>
+                                    <button class="btn-opcion" @onclick="() => EliminarRelacionCliente(actividad)">💬</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-guardar" @onclick="GuardarRelacionCliente">Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@if (mostrarModalSegmentoMercado)
+{
+    <div class="modal-overlay">
+        <div class="modal-content propuesta-valor-content">
+            <h3 class="modal-titulo">Menú de Configuración</h3>
+
+            <div class="propuesta-valor-container">
+                <h4>¿Cuál es tu Segmento de mercado?</h4>
+
+                <div class="form-group">
+                    <textarea class="form-control propuesta-textarea"
+                              @bind="modeloNegocio.SegmentoMercado.Descripcion"
+                              placeholder="Describe tu Segmento de mercado..."></textarea>
+                </div>
+
+                <div class="propuesta-guardar">
+                    <button class="btn-guardar" @onclick="GuardarSegmentoMercado">Guardar</button>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-secondary" @onclick="CerrarModalSegmentoMercado">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
 @code {
     public List<Cliente> clientes = new List<Cliente>();
     public Cliente cliente { get; set; } = new Cliente();
     public ModeloNegocio modeloNegocio { get; set; } = new ModeloNegocio();
+    private ActividadClave nuevaActividad = new ActividadClave();
+    private CanalDistribucion nuevaCanal = new CanalDistribucion();
+    private IngresoPrecio nuevaIngreso = new IngresoPrecio();
+    private RelacionCliente nuevaRelacion = new RelacionCliente();
     public string gusto { get; set; } = "";
     bool mostrarModal = false;
     bool mostrarModalConfiguracion = false;
@@ -229,10 +632,15 @@ else
     private bool mostrarModalRelacionCliente = false;
     private bool mostrarModalSegmentoMercado = false;
 
-    private string tipoPropuestaValor = "";
-    private string tituloPropuestaValor = "";
-    private string tipoActividades = "";
-    private string tituloActividades = "";
+
+    private bool mostrarModalAgregarActividad = false;
+    private bool mostrarModalAgregarCanal = false;
+    private bool mostrarModalAgregarIngresos = false;
+    private bool mostrarModalAgregarRelacionCliente = false;
+    private string nuevaActividadDescripcion = "";
+    private string nuevaCanalDescripcion = "";
+    private string nuevaIngresoDescripcion = "";
+    private string nuevaRelacionClienteDescripcion = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -437,8 +845,6 @@ else
         return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
     }
 
-
-
     // List<string> EvaluarPropuestaDeValor(Cliente cliente)
     // {
     //     var palabrasClave = new List<string>
@@ -527,8 +933,6 @@ else
         return coincidencias;
     }
 
-
-
     public class SegmentoEdad
     {
         public string Nombre { get; set; }
@@ -594,7 +998,6 @@ else
         return coincidencias;
     }
 
-
     private async Task Guardar()
     {
         try
@@ -615,34 +1018,339 @@ else
         }
     }
 
+    //--------Propuesta de Valor--------//
 
     void MostrarModalPropuestaValor()
     {
         mostrarModalPropuestaValor = true;
+        StateHasChanged();
+    }
+    void CerrarModalPropuestaValor()
+    {
+        mostrarModalPropuestaValor = false;
+        StateHasChanged();
     }
 
+    async Task GuardarPropuestaValor()
+    {
+        try
+        {
+            if (modeloNegocio?.PropuestaValor != null)
+            {
+                await propuestaValorService.Modificar(modeloNegocio.PropuestaValor);
+                Console.WriteLine("Propuesta de valor guardada correctamente");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar propuesta de valor: {ex.Message}");
+        }
+    }
+
+    //--------Actividades--------//
     void MostrarModalActividades()
     {
         mostrarModalActividades = true;
+        StateHasChanged();
+    }
+    void CerrarModalActividades()
+    {
+        mostrarModalActividades = false;
+        StateHasChanged();
+    }
+    void MostrarModalAgregarActividad()
+    {
+        nuevaActividad = new ActividadClave();
+        mostrarModalAgregarActividad = true;
+        StateHasChanged();
+    }
+    async Task EliminarActividad(ActividadClave actividad)
+    {
+        try
+        {
+            modeloNegocio.Actividades.Remove(actividad);
+            await modeloNegocioService.Modificar(modeloNegocio);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al eliminar actividad: {ex.Message}");
+        }
+    }
+    void AgregarActividad()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevaActividadDescripcion))
+        {
+            modeloNegocio.Actividades.Add(new ActividadClave
+                {
+                    Descripcion = nuevaActividadDescripcion
+                });
+            nuevaActividadDescripcion = string.Empty; // Limpiar después de agregar
+            StateHasChanged();
+        }
+    }
+    async Task GuardarActividades()
+    {
+        try
+        {
+            // Agregar las actividades predefinidas si no existen
+            var actividadesPredefinidas = new List<string> { ""};
+
+            foreach (var actividad in actividadesPredefinidas)
+            {
+                if (!modeloNegocio.Actividades.Any(a => a.Descripcion == actividad))
+                {
+                    modeloNegocio.Actividades.Add(new ActividadClave
+                        {
+                            Descripcion = actividad
+                        });
+                }
+            }
+
+            // Guardar a través del ModeloNegocio
+            await modeloNegocioService.Modificar(modeloNegocio);
+            CerrarModal();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar actividades: {ex.Message}");
+        }
     }
 
+    //-----Canal de distribucion-----------//
     void MostrarModalCanalDis()
     {
         mostrarModalCanalDis = true;
+        StateHasChanged();
+    }
+    void CerrarModalCanalDis()
+    {
+        mostrarModalCanalDis = false;
+        StateHasChanged();
+    }
+    void MostrarModalAgregarCanal()
+    {
+        nuevaCanal = new CanalDistribucion();
+        mostrarModalAgregarCanal = true;
+        StateHasChanged();
+    }
+    void AgregarCanal()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevaCanalDescripcion))
+        {
+            modeloNegocio.Canales.Add(new CanalDistribucion
+                {
+                    Descripcion = nuevaCanalDescripcion
+                });
+            nuevaCanalDescripcion = string.Empty; // Limpiar después de agregar
+            StateHasChanged();
+        }
+    }
+    async Task EliminarCanal(CanalDistribucion canal)
+    {
+        try
+        {
+            modeloNegocio.Canales.Remove(canal);
+            await modeloNegocioService.Modificar(modeloNegocio);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al eliminar canal: {ex.Message}");
+        }
+    }
+    async Task GuardarCanal()
+    {
+        try
+        {
+            // Agregar las actividades predefinidas si no existen
+            var actividadesPredefinidas = new List<string> { "" };
+
+            foreach (var canal in actividadesPredefinidas)
+            {
+                if (!modeloNegocio.Canales.Any(a => a.Descripcion == canal))
+                {
+                    modeloNegocio.Canales.Add(new CanalDistribucion
+                        {
+                            Descripcion = canal
+                        });
+                }
+            }
+
+            // Guardar a través del ModeloNegocio
+            await modeloNegocioService.Modificar(modeloNegocio);
+            CerrarModal();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar el canal: {ex.Message}");
+        }
     }
 
+    //-------Ingresos---------------//
     void MostrarModalIngresos()
     {
+        StateHasChanged();
         mostrarModalIngresos = true;
     }
+    void CerrarModalIngresos()
+    {
+        mostrarModalCanalDis = false;
+        StateHasChanged();
+    }
+    void MostrarModalAgregarIngresos()
+    {
+        nuevaIngreso = new IngresoPrecio();
+        mostrarModalAgregarIngresos = true;
+        StateHasChanged();
+    }
+    async Task EliminarIngresos(IngresoPrecio ingreso)
+    {
+        try
+        {
+            modeloNegocio.Ingresos.Remove(ingreso);
+            await modeloNegocioService.Modificar(modeloNegocio);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al eliminar el ingreso: {ex.Message}");
+        }
+    }
+    void AgregarIngresos()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevaIngresoDescripcion))
+        {
+            modeloNegocio.Ingresos.Add(new IngresoPrecio
+                {
+                    Descripcion = nuevaIngresoDescripcion
+                });
+            nuevaIngresoDescripcion = string.Empty; // Limpiar después de agregar
+            StateHasChanged();
+        }
+    }
+    async Task GuardarIngresos()
+    {
+        try
+        {
+            var actividadesPredefinidas = new List<string> { "" };
 
+            foreach (var ingreso in actividadesPredefinidas)
+            {
+                if (!modeloNegocio.Ingresos.Any(a => a.Descripcion == ingreso))
+                {
+                    modeloNegocio.Ingresos.Add(new IngresoPrecio
+                        {
+                            Descripcion = ingreso
+                        });
+                }
+            }
+
+            // Guardar a través del ModeloNegocio
+            await modeloNegocioService.Modificar(modeloNegocio);
+            CerrarModal();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar el ingreso: {ex.Message}");
+        }
+    }
+
+
+    //---------Relacion Cliente---------------//
     void MostrarModalRelacionCliente()
     {
         mostrarModalRelacionCliente = true;
+        StateHasChanged();
     }
+    void CerrarModalRelacionCliente()
+    {
+        mostrarModalRelacionCliente = false;
+        StateHasChanged();
+    }
+    void MostrarModalAgregarRelacionCliente()
+    {
+        nuevaRelacion = new RelacionCliente();
+        mostrarModalAgregarRelacionCliente = true;
+        StateHasChanged();
+    }
+    async Task EliminarRelacionCliente(RelacionCliente relacion)
+    {
+        try
+        {
+            modeloNegocio.Relaciones.Remove(relacion);
+            await modeloNegocioService.Modificar(modeloNegocio);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al eliminar la relacion: {ex.Message}");
+        }
+    }
+    void AgregarRelacionCliente()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevaRelacionClienteDescripcion))
+        {
+            modeloNegocio.Relaciones.Add(new RelacionCliente
+                {
+                    Descripcion = nuevaRelacionClienteDescripcion
+                });
+            nuevaRelacionClienteDescripcion = string.Empty; // Limpiar después de agregar
+            StateHasChanged();
+        }
+    }
+    async Task GuardarRelacionCliente()
+    {
+        try
+        {
+            var actividadesPredefinidas = new List<string> { "" };
+
+            foreach (var relacion in actividadesPredefinidas)
+            {
+                if (!modeloNegocio.Relaciones.Any(a => a.Descripcion == relacion))
+                {
+                    modeloNegocio.Relaciones.Add(new RelacionCliente
+                        {
+                            Descripcion = relacion
+                        });
+                }
+            }
+
+            // Guardar a través del ModeloNegocio
+            await modeloNegocioService.Modificar(modeloNegocio);
+            CerrarModal();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar la relacion: {ex.Message}");
+        }
+    }
+
+    //--------Propuesta de Valor--------//
 
     void MostrarModalSegmentoMercado()
     {
         mostrarModalSegmentoMercado = true;
+        StateHasChanged();
+    }
+    void CerrarModalSegmentoMercado()
+    {
+        mostrarModalSegmentoMercado = false;
+        StateHasChanged();
+    }
+    async Task GuardarSegmentoMercado()
+    {
+        try
+        {
+            if (modeloNegocio?.SegmentoMercado != null)
+            {
+                await segmentoMercadoService.Modificar(modeloNegocio.SegmentoMercado);
+                Console.WriteLine("Segmento de mercado guardada correctamente");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al guardar el segmento de mercado: {ex.Message}");
+        }
     }
 }
