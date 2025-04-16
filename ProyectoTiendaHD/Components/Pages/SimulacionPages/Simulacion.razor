@@ -12,81 +12,133 @@
 
 <h1 class="text-center"><strong>Bienvenido a la simulación<br />de tu Modelo de Negocio</strong></h1>
 
-<div class="card-container">
-    <div class="card">
-        <strong>Clientes</strong>
-        <p>Cantidad: @clientes.Count</p>
-        <button class="btn" @onclick="MostrarModal">Agregar</button>
+<hr class="separador" />
+
+<div class="row-flex">
+    <!-- Segmento de Mercado -->
+    <div class="col-box">
+        <h2 class="seccion-titulo text-center">
+            <strong>📊 Segmento de Mercado</strong>
+        </h2>
+        <div class="highlight-box p-3">
+            <p class="descripcion"><i>"@segmentoMercado.Descripcion"</i></p>
+        </div>
     </div>
 
-    <div class="card">
-        <img src="https://img.icons8.com/ios-filled/50/settings.png" alt="Config" class="icon" />
-        <button class="btn" @onclick="MostrarModalConfiguracion">Cambiar Configuracion</button>
+    <!-- Propuesta de Valor -->
+    <div class="col-box">
+        <h2 class="seccion-titulo text-center">
+            <strong>🎯 Propuesta de Valor</strong>
+        </h2>
+        <div class="highlight-box p-3">
+            <p class="descripcion"><i>"@propuestaValor.Descripcion"</i></p>
+        </div>
     </div>
-</div> <!-- FIN card-container -->
+</div>
+
+<hr class="separador" />
+
+
+<div class="card-container mt-4">
+    <div class="card text-center p-3 shadow-sm">
+        <strong class="h6">🧑‍🤝‍🧑 Clientes</strong>
+        <p class="mt-1 mb-2">Cantidad: @clientes.Count</p>
+        <button class="btn btn-primary btn-sm" @onclick="MostrarModal">Agregar</button>
+    </div>
+
+    <div class="card text-center p-3 shadow-sm">
+        <strong class="h6">⚙️ Configuración</strong>
+        <button class="btn btn-secondary btn-sm mt-2" @onclick="MostrarModalConfiguracion">Cambiar</button>
+    </div>
+</div>
 
 <!-- 🧾 Mostrar datos del cliente debajo -->
 @if (clientes != null && clientes.Any())
 {
     @foreach (var cliente in clientes)
     {
-        <div class="card-body mb-4">
-            <h4>Datos del Cliente</h4>
-            <ul>
-                <li><strong>Nombre:</strong> @cliente.Nombre</li>
-                <li><strong>Gustos que coinciden:</strong></li>
-                <li><strong>Segmento de mercado:</strong></li>
-
-                @if (cliente.CoincidenciasSegmento != null && cliente.CoincidenciasSegmento.Any())
-                {
-                    @foreach (var coincidencia in cliente.CoincidenciasSegmento)
-                    {
-                        <li>@coincidencia.Descripcion</li>
-                    }
-                }
-                else
-                {
-                    <li>No hay coincidencias con el segmento.</li>
-                }
-
-                @if (cliente.CoincidenciasPropuestaValor != null && cliente.CoincidenciasPropuestaValor.Any())
-                {
-                    @foreach (var coincidencia in cliente.CoincidenciasPropuestaValor)
-                    {
-                        <li>@coincidencia.Descripcion</li>
-                    }
-                }
-                else
-                {
-                    <li>No hay coincidencias con la propuesta de valor.</li>
-                }
-
-                @if (cliente.CoincidenciasCanales != null && cliente.CoincidenciasCanales.Any())
-                {
-                    @foreach (var coincidencia in cliente.CoincidenciasCanales)
-                    {
-                        <li>@coincidencia.Descripcion</li>
-                    }
-                }
-                else
-                {
-                    <li>No hay coincidencias con los canales de distribuci&oacute;n</li>
-                }
-
-                @if (cliente.CoincidenciasActividades != null && cliente.CoincidenciasActividades.Any())
-                {
-                    @foreach (var coincidencia in cliente.CoincidenciasActividades)
-                    {
-                        <li>@coincidencia.Descripcion</li>
-                    }
-                }
-                else
-                {
-                    <li>No hay coincidencias con las actividades de valor</li>
-                }
+        <div class="card-body mb-4 p-4 bg-light border rounded">
+            <h4 class="titulo-cliente text-primary mb-3">
+                <strong>👤 Datos del Cliente</strong>
+            </h4>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <span class="cliente-nombre"><strong>Nombre:</strong> @cliente.Nombre</span>
+                </li>
+                <li class="mb-3">
+                    <span class="subtitulo-gustos"><strong>✨ Gustos que coinciden:</strong></span>
+                </li>
+                <li>
+                    <strong>Segmento de mercado:</strong>
+                    <ul class="pl-4">
+                        @if (cliente.CoincidenciasSegmento != null && cliente.CoincidenciasSegmento.Any())
+                        {
+                            @foreach (var coincidencia in cliente.CoincidenciasSegmento)
+                            {
+                                <li>@coincidencia.Descripcion</li>
+                            }
+                        }
+                        else
+                        {
+                            <li>No hay coincidencias con el segmento.</li>
+                        }
+                    </ul>
+                </li>
 
                 <li>
-                    <strong>Porcentaje:</strong> @cliente.PorcentajeCoincidencias (%)
+                    <strong>Propuesta de Valor:</strong>
+                    <ul class="pl-4">
+                        @if (cliente.CoincidenciasPropuestaValor != null && cliente.CoincidenciasPropuestaValor.Any())
+                        {
+                            @foreach (var coincidencia in cliente.CoincidenciasPropuestaValor)
+                            {
+                                <li>@coincidencia.Descripcion</li>
+                            }
+                        }
+                        else
+                        {
+                            <li>No hay coincidencias con la propuesta de valor.</li>
+                        }
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Canales de distribución:</strong>
+                    <ul class="pl-4">
+                        @if (cliente.CoincidenciasCanales != null && cliente.CoincidenciasCanales.Any())
+                        {
+                            @foreach (var coincidencia in cliente.CoincidenciasCanales)
+                            {
+                                <li>@coincidencia.Descripcion</li>
+                            }
+                        }
+                        else
+                        {
+                            <li>No hay coincidencias con los canales de distribución.</li>
+                        }
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Actividades claves:</strong>
+                    <ul class="pl-4">
+                        @if (cliente.CoincidenciasActividades != null && cliente.CoincidenciasActividades.Any())
+                        {
+                            @foreach (var coincidencia in cliente.CoincidenciasActividades)
+                            {
+                                <li>@coincidencia.Descripcion</li>
+                            }
+                        }
+                        else
+                        {
+                            <li>No hay coincidencias con las actividades clave.</li>
+                        }
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Porcentaje de coincidencias:</strong>
+                    <span>@cliente.PorcentajeCoincidencias (%)</span>
                     <span class="color-circulo @ObtenerColorPorcentaje(cliente.PorcentajeCoincidencias ?? 0)"></span>
                 </li>
             </ul>
@@ -95,7 +147,7 @@
 }
 else
 {
-    <p>No hay clientes disponibles.</p>
+    <p class="text-center text-muted">No hay clientes disponibles.</p>
 }
 
 
@@ -122,6 +174,7 @@ else
 
 
             <div class="form-group">
+                @*Segmento y Propuesta*@
                 <label>¿Cuáles son sus gustos?</label>
                 <div class="form-row">
                     <input class="form-input flex-fill" @bind="gusto" placeholder="Gustos" />
@@ -129,7 +182,7 @@ else
                 </div>
             </div>
 
-            @if (cliente.DetallesGusto.Any())
+            @if (GustosPropuestas.Any())
             {
                 <div class="tabla-gustos">
                     <table>
@@ -140,7 +193,7 @@ else
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var gusto in cliente.DetallesGusto)
+                            @foreach (var gusto in GustosPropuestas)
                             {
                                 <tr>
                                     <td>@gusto.Descripcion</td>
@@ -154,9 +207,111 @@ else
                 </div>
             }
 
-            <div class="form-actions justify-content-center">
+            <div class="form-group">
+                @*Canal de distribucion*@
+                <label>¿Cómo sueles contactar o ser contactado por las marcas que te interesan?</label>
+                <div class="form-row">
+                    <input class="form-input flex-fill" @bind="gustoCanalDistribucion" placeholder="Gustos" />
+                    <button class="btn-agregar" @onclick="AgregarGustoCanalDistribucion">Agregar</button>
+                </div>
+            </div>
+
+            @if (GustoCanalDistribucion.Any())
+            {
+                <div class="tabla-gustos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gustos</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var gusto in GustoCanalDistribucion)
+                            {
+                                <tr>
+                                    <td>@gusto.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarGustoCanalDistribucion(gusto)">🗑️</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <div class="form-group">
+                @*Relacion Cliente*@
+                <label>¿Qué tipo de trato o atención valoras más de una empresa?</label>
+                <div class="form-row">
+                    <input class="form-input flex-fill" @bind="gustoRelacionCliente" placeholder="Gustos" />
+                    <button class="btn-agregar" @onclick="AgregarGustoRelacionCliente">Agregar</button>
+                </div>
+            </div>
+
+            @if (GustosRelacionCliente.Any())
+            {
+                <div class="tabla-gustos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gustos</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var gusto in GustosRelacionCliente)
+                            {
+                                <tr>
+                                    <td>@gusto.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarGustoRelacionCliente(gusto)">🗑️</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <div class="form-group">
+                @*Actividades de valor*@
+                <label>¿Qué tipo de acciones o procesos valoras más en una empresa?</label>
+                <div class="form-row">
+                    <input class="form-input flex-fill" @bind="gustoActividadValor" placeholder="Gustos" />
+                    <button class="btn-agregar" @onclick="AgregarGustoActividadValor">Agregar</button>
+                </div>
+            </div>
+
+            @if (GustosActividadesValor.Any())
+            {
+                <div class="tabla-gustos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Gustos</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var gusto in GustosActividadesValor)
+                            {
+                                <tr>
+                                    <td>@gusto.Descripcion</td>
+                                    <td>
+                                        <button class="btn-eliminar" @onclick="() => EliminarGustoActividadValor(gusto)">🗑️</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <div class="form-actions">
                 <button class="btn-guardar" @onclick="Guardar">Guardar</button>
-                <button class="btn btn-secondary" @onclick="CerrarModal">Cancelar</button>
+                <button class="btn-cancelar" @onclick="CerrarModal">Cancelar</button>
             </div>
         </div>
     </div>
@@ -374,7 +529,7 @@ else
             <div class="agregar-actividad">
                 <div class="agregar-input-container">
                     <InputText class="form-control" @bind-Value="nuevaCanalDescripcion"
-                               placeholder="Ej: Cafetera industrial" />
+                    placeholder="Ej: Cafetera industrial" />
                     <button class="btn-agregar" @onclick="AgregarActividad">Agregar</button>
                 </div>
             </div>
@@ -458,7 +613,7 @@ else
             <div class="agregar-actividad">
                 <div class="agregar-input-container">
                     <InputText class="form-control" @bind-Value="nuevaIngresoDescripcion"
-                               placeholder="Ej: Cafetera industrial" />
+                    placeholder="Ej: Cafetera industrial" />
                     <button class="btn-agregar" @onclick="AgregarIngresos">Agregar</button>
                 </div>
             </div>
@@ -543,7 +698,7 @@ else
             <div class="agregar-actividad">
                 <div class="agregar-input-container">
                     <InputText class="form-control" @bind-Value="nuevaRelacionClienteDescripcion"
-                               placeholder="Ej: Cafetera industrial" />
+                    placeholder="Ej: Cafetera industrial" />
                     <button class="btn-agregar" @onclick="AgregarRelacionCliente">Agregar</button>
                 </div>
             </div>
@@ -591,8 +746,8 @@ else
 
                 <div class="form-group">
                     <textarea class="form-control propuesta-textarea"
-                              @bind="modeloNegocio.SegmentoMercado.Descripcion"
-                              placeholder="Describe tu Segmento de mercado..."></textarea>
+                    @bind="modeloNegocio.SegmentoMercado.Descripcion"
+                    placeholder="Describe tu Segmento de mercado..."></textarea>
                 </div>
 
                 <div class="propuesta-guardar">
@@ -607,19 +762,36 @@ else
     </div>
 }
 
+@{
+    var resultado = CalcularFactibilidad(clientes);
+    double promedio = resultado.Promedio;
+    string estado = resultado.Estado;
+}
 
+<div class="factibilidad-box text-center mt-4">
+    <h4><strong>Factibilidad del Modelo de Negocio</strong></h4>
+    <div class="factibilidad-estado @ObtenerColorPorcentaje(promedio)">
+        <strong>@estado</strong> (@promedio.ToString("0.0")%)
+    </div>
+</div>
 
 
 
 @code {
     public List<Cliente> clientes = new List<Cliente>();
+    public List<Gusto> GustosPropuestas = new List<Gusto>();
+    public List<Gusto> GustoCanalDistribucion = new List<Gusto>();
+    public List<Gusto> GustosRelacionCliente = new List<Gusto>();
+    public List<Gusto> GustosActividadesValor = new List<Gusto>();
     public Cliente cliente { get; set; } = new Cliente();
+    public SegmentoMercado segmentoMercado { get; set; } = new SegmentoMercado();
+    public PropuestaValor propuestaValor { get; set; } = new PropuestaValor();
     public ModeloNegocio modeloNegocio { get; set; } = new ModeloNegocio();
     private ActividadClave nuevaActividad = new ActividadClave();
     private CanalDistribucion nuevaCanal = new CanalDistribucion();
     private IngresoPrecio nuevaIngreso = new IngresoPrecio();
     private RelacionCliente nuevaRelacion = new RelacionCliente();
-    public string gusto { get; set; } = "";
+
     bool mostrarModal = false;
     bool mostrarModalConfiguracion = false;
     private string nuevoGusto = string.Empty;
@@ -642,6 +814,12 @@ else
     private string nuevaIngresoDescripcion = "";
     private string nuevaRelacionClienteDescripcion = "";
 
+    //Gustos
+    public string gusto { get; set; } = "";
+    public string gustoCanalDistribucion { get; set; } = "";
+    public string gustoRelacionCliente { get; set; } = "";
+    public string gustoActividadValor { get; set; } = "";
+
     protected override async Task OnInitializedAsync()
     {
         await CargarClientes();
@@ -653,6 +831,25 @@ else
         await IniciarSimulacion();
     }
 
+    private (double Promedio, string Estado) CalcularFactibilidad(List<Cliente> clientes)
+    {
+        if (clientes == null || clientes.Count == 0)
+            return (0, "Sin datos");
+
+        double promedio = clientes.Average(c => c.PorcentajeCoincidencias ?? 0);
+        string estado;
+
+        if (promedio >= 80)
+            estado = "Alta";
+        else if (promedio >= 60)
+            estado = "Moderada";
+        else if (promedio >= 40)
+            estado = "Baja";
+        else
+            estado = "No factible";
+
+        return (promedio, estado);
+    }
 
     private string ObtenerColorPorcentaje(double porcentaje)
     {
@@ -687,21 +884,58 @@ else
     void CerrarModal() => mostrarModal = false;
     void CerrarModalConfiguracion() => mostrarModalConfiguracion = false;
 
+    private void AgregarGustoRelacionCliente()
+    {
+        if (!string.IsNullOrWhiteSpace(gustoRelacionCliente))
+        {
+            GustosRelacionCliente ??= new List<Gusto>();
+            GustosRelacionCliente.Add(new Gusto { Descripcion = gustoRelacionCliente });
+            gustoRelacionCliente = string.Empty;
+            StateHasChanged();
+        }
+    }
+
     private void AgregarGusto()
     {
         if (!string.IsNullOrWhiteSpace(gusto))
         {
-            cliente.DetallesGusto ??= new List<Gusto>();
-            cliente.DetallesGusto.Add(new Gusto { Descripcion = gusto });
+            // cliente.DetallesGusto ??= new List<Gusto>();
+            // cliente.DetallesGusto.Add(new Gusto { Descripcion = gusto });
+            // gusto = string.Empty;
+
+            GustosPropuestas ??= new List<Gusto>();
+            GustosPropuestas.Add(new Gusto { Descripcion = gusto });
             gusto = string.Empty;
             StateHasChanged();
         }
     }
 
-    void EliminarGusto(Gusto gustoEliminar)
+    private void AgregarGustoCanalDistribucion()
     {
-        cliente.DetallesGusto?.Remove(gustoEliminar);
+        if (!string.IsNullOrWhiteSpace(gustoCanalDistribucion))
+        {
+            GustoCanalDistribucion ??= new List<Gusto>();
+            GustoCanalDistribucion.Add(new Gusto { Descripcion = gustoCanalDistribucion });
+            gustoCanalDistribucion = string.Empty;
+            StateHasChanged();
+        }
     }
+
+    private void AgregarGustoActividadValor()
+    {
+        if (!string.IsNullOrWhiteSpace(gustoActividadValor))
+        {
+            GustosActividadesValor ??= new List<Gusto>();
+            GustosActividadesValor.Add(new Gusto { Descripcion = gustoActividadValor });
+            gustoActividadValor = string.Empty;
+            StateHasChanged();
+        }
+    }
+
+    void EliminarGusto(Gusto gustoEliminar) => GustosPropuestas?.Remove(gustoEliminar);
+    void EliminarGustoCanalDistribucion(Gusto gustoEliminar) => GustoCanalDistribucion?.Remove(gustoEliminar);
+    void EliminarGustoRelacionCliente(Gusto gustoEliminar) => GustosRelacionCliente?.Remove(gustoEliminar);
+    void EliminarGustoActividadValor(Gusto gustoEliminar) => GustosActividadesValor?.Remove(gustoEliminar);
 
     private async Task CargarClientes()
     {
@@ -722,6 +956,9 @@ else
     {
         var segmento = await segmentoMercadoService.Buscar(modeloNegocio.SegmentoMercadoId);
         var propuesta = await propuestaValorService.Buscar(modeloNegocio.PropuestaValorId);
+
+        segmentoMercado = segmento;
+        propuestaValor = propuesta;
 
         foreach (var cli in clientes)
         {
@@ -781,6 +1018,17 @@ else
                     });
             }
 
+            var coincidenciasRelacionCliente = EvaluarRelacionCliente(cli);
+
+            foreach (var coincidencia in coincidenciasRelacionCliente)
+            {
+                cli.CoincidenciasRelaciones.Add(new CoincidenciaRelacionCliente
+                    {
+                        ClienteId = cli.ClienteId,
+                        Descripcion = coincidencia
+                    });
+            }
+
             int totalCoincidencias = 0;
 
             if (cli.CoincidenciasSegmento.Any())
@@ -795,7 +1043,10 @@ else
             if (cli.CoincidenciasActividades.Any())
                 totalCoincidencias++;
 
-            cli.PorcentajeCoincidencias = Math.Min(((double)totalCoincidencias / 4) * 100, 100);
+            if (cli.CoincidenciasRelaciones.Any())
+                totalCoincidencias++;
+
+            cli.PorcentajeCoincidencias = Math.Min(((double)totalCoincidencias / 5) * 100, 100);
         }
 
         StateHasChanged();
@@ -900,6 +1151,38 @@ else
 
         return coincidencias;
     }
+
+    public List<string> EvaluarRelacionCliente(Cliente cliente)
+    {
+        var palabrasClaveRelacion = new List<string>
+    {
+        "personal", "confianza", "atencion", "rapidez", "cercania",
+        "empatia", "trato", "amabilidad", "seguimiento", "asesoria",
+        "comunicacion", "contacto", "soporte", "ayuda", "respuestas",
+        "transparencia", "dedicacion", "interaccion", "servicio"
+    };
+
+        var gustos = cliente.DetallesGusto
+                            .Where(g => !string.IsNullOrWhiteSpace(g.Descripcion))
+                            .SelectMany(g => g.Descripcion
+                                              .ToLower()
+                                              .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                            .Distinct()
+                            .ToList();
+
+        var coincidencias = new List<string>();
+
+        foreach (var palabraClave in palabrasClaveRelacion)
+        {
+            if (gustos.Any(g => g == palabraClave))
+            {
+                coincidencias.Add($"Coincide con relación cliente: {palabraClave}");
+            }
+        }
+
+        return coincidencias;
+    }
+
 
     public List<string> EvaluarActividadesValor(Cliente cliente)
     {
@@ -1007,6 +1290,14 @@ else
                 Console.WriteLine($"Error al guardar: Nombre nulo");
                 return;
             }
+
+            var gustosCombinados = GustosPropuestas
+            .Concat(GustoCanalDistribucion)
+            .Concat(GustosRelacionCliente)
+            .Concat(GustosActividadesValor)
+            .ToList();
+
+            cliente.DetallesGusto = gustosCombinados;
 
             await clienteService.Crear(cliente);
             await CargarClientes();
